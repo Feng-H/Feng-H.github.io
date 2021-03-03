@@ -30,3 +30,12 @@ body{
     padding:20px;
     margin: 20px;
 }
+
+.box-1 h1{
+    font-family: :Tahoma;
+    font-weight:800;
+    font-style:italic;
+    text-decoration:underline;
+    text-transform:uppercase;
+    Letter-sapcing
+}
