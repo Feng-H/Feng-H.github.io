@@ -1,5 +1,3 @@
-# this is the heading 1
-```python
-print("hello world!)
-```
-~~good job~~
+# this is the the readme file for the Page
+
+## that is all
