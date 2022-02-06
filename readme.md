@@ -1,3 +1,5 @@
-# this is the the readme file for the Page
-
-## that is all
+# Personal Static blog
+# 如何处理设备名称和设备型号
+----
+基本上如果设备名称或者设备型号，理论上名称应该是一致的，但是有时候会有一些名称带序号的情况，有时候也会出现型号填写错误的情况
+----
