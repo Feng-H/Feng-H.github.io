@@ -10,13 +10,24 @@
 </head>
 <body>
   <div id="app"></div>
+  <script src="//unpkg.com/docsify-edit-on-github/index.js"></script>
   <script>
     window.$docsify = {
-      name: '',
-      repo: ''
+      name: 'docsify',
+      repo: 'https://github.com/feng-h',
+      maxLevel: 5,//最大支持渲染的标题层级
+      subMaxLevel: 3,
+      homepage: 'README.md',
+      coverpage: false,//封面
+      loadSidebar: true,//开启侧边栏
+      auto2top: true,//切换页面后是否自动跳转到页面顶部
     }
   </script>
   <!-- Docsify v4 -->
   <script src="//cdn.jsdelivr.net/npm/docsify@4"></script>
+  <!--Java代码高亮-->
+  <script src="//unpkg.com/prismjs/components/prism-java.js"></script>
+  <!--Json代码高亮-->
+  <script src="//unpkg.com/prismjs/components/prism-json.min.js"></script>
 </body>
 </html>
