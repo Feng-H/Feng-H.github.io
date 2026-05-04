@@ -1,0 +1,381 @@
+/* ===== Kami Design System — Demo Pages Shared Stylesheet ===== */
+/* Based on https://github.com/tw93/kami — Warm Restraint aesthetic */
+
+@font-face {
+    font-family: 'TsangerJinKai02';
+    src: url('https://lib.baomitu.com/fonts/tsangerjinkai/tsangerjinkai.woff2') format('woff2');
+    font-display: swap;
+}
+
+/* ===== Design Tokens ===== */
+:root {
+    --kami-bg: #F5F4ED;
+    --kami-card: #faf9f5;
+    --kami-text: #141413;
+    --kami-text-secondary: #3d3d3a;
+    --kami-text-tertiary: #504e49;
+    --kami-text-muted: #6b6a64;
+    --kami-ink: #1B365D;
+    --kami-border: #e8e6dc;
+    --kami-border-light: rgba(27, 54, 93, 0.08);
+    --kami-shadow-ring: 0 0 0 1pt rgba(27, 54, 93, 0.1);
+    --kami-shadow-whisper: 0 0 0 1pt rgba(27, 54, 93, 0.1), 0 8px 30px -4px rgba(27, 54, 93, 0.04);
+}
+
+/* ===== Base Reset ===== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+    background: var(--kami-bg);
+    color: var(--kami-text);
+    font-family: "Charter", "TsangerJinKai02", "Songti SC", serif;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+}
+
+/* ===== Scrollbar ===== */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--kami-bg); }
+::-webkit-scrollbar-thumb { background: var(--kami-border); border-radius: 2px; }
+
+/* ===== Typography Helpers ===== */
+.serif-title { font-family: "Charter", "TsangerJinKai02", "Songti SC", serif; font-weight: 500; }
+.mono-label { font-family: "JetBrains Mono", monospace; }
+.section-num { font-family: "JetBrains Mono", monospace; opacity: 0.3; margin-right: 0.5rem; font-size: 0.9em; }
+
+/* ===== Kami Card (replaces .glow-card) ===== */
+.glow-card, .kami-card-demo {
+    background: var(--kami-card);
+    border: 1px solid var(--kami-border);
+    border-radius: 12px;
+    transition: box-shadow 0.3s ease;
+}
+.glow-card:hover, .kami-card-demo:hover {
+    box-shadow: var(--kami-shadow-whisper);
+}
+
+/* ===== Feishu Card ===== */
+.feishu-card {
+    background: var(--kami-card);
+    border: 1px solid var(--kami-border);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: none;
+    padding: 0;
+}
+.feishu-card-header {
+    background: var(--kami-ink);
+    color: var(--kami-bg);
+    padding: 10px 16px;
+    font-family: "Charter", "TsangerJinKai02", "Songti SC", serif;
+    font-weight: 500;
+    font-size: 0.85rem;
+}
+
+/* ===== Chat Bubbles ===== */
+.chat-bubble, .chat-bubble-ai, .chat-bubble-user, .chat-bubble-system,
+.chat-ai, .chat-user {
+    max-width: 85%;
+    padding: 12px 16px;
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+.chat-bubble-ai, .chat-ai {
+    background: #f0efe8;
+    border: 1px solid var(--kami-border);
+    border-radius: 2px 12px 12px 12px;
+}
+.chat-bubble-user, .chat-user {
+    background: var(--kami-ink);
+    color: var(--kami-bg);
+    border-radius: 12px 2px 12px 12px;
+}
+.chat-bubble-system {
+    background: #f5f0e8;
+    border: 1px solid var(--kami-border);
+    border-radius: 12px 12px 2px 12px;
+    color: var(--kami-text-tertiary);
+    font-size: 0.85rem;
+}
+
+/* ===== Section Title ===== */
+.section-title {
+    font-family: "Charter", "TsangerJinKai02", "Songti SC", serif;
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: var(--kami-text);
+    border-left: 2.5pt solid var(--kami-ink);
+    padding-left: 12px;
+    -webkit-text-fill-color: var(--kami-text);
+    background: none;
+}
+
+/* ===== Tags ===== */
+.tag {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 400;
+    font-family: "Charter", "TsangerJinKai02", "Songti SC", serif;
+    color: var(--kami-text-muted);
+    border: 1px solid var(--kami-border);
+    background: var(--kami-bg);
+}
+
+/* ===== Navigation ===== */
+.nav-link {
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 13px;
+    font-family: "Charter", "TsangerJinKai02", "Songti SC", serif;
+    font-weight: 400;
+    color: var(--kami-text-muted);
+    transition: color 0.2s;
+}
+.nav-link:hover, .nav-link.active {
+    color: var(--kami-ink);
+    background: transparent;
+}
+
+/* ===== Back Navigation ===== */
+.kami-back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 12px;
+    color: var(--kami-ink);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s;
+}
+.kami-back-link:hover { border-bottom-color: var(--kami-ink); }
+
+/* ===== Data Tables (VSM) ===== */
+table.data-table { width: 100%; border-collapse: collapse; }
+table.data-table th {
+    background: var(--kami-bg);
+    padding: 8px 12px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    text-align: center;
+    border-bottom: 2pt solid var(--kami-ink);
+    color: var(--kami-ink);
+}
+table.data-table td {
+    padding: 8px 12px;
+    font-size: 0.82rem;
+    text-align: center;
+    border-bottom: 1px solid var(--kami-border);
+    color: var(--kami-text-secondary);
+}
+table.data-table tr:hover td { background: rgba(27, 54, 93, 0.03); }
+table.data-table .bottleneck-row { background: rgba(239,68,68,0.04) !important; }
+table.data-table .bottleneck-row td { color: var(--kami-text); }
+
+/* ===== Progress Bars ===== */
+.progress-bar, .progress-bar-animated {
+    height: 3px;
+    background: var(--kami-border);
+    border-radius: 2px;
+    overflow: hidden;
+}
+.progress-fill, .progress-bar-animated .fill {
+    height: 100%;
+    background: var(--kami-ink);
+    border-radius: 2px;
+    transition: width 1.5s ease-out;
+}
+
+/* ===== Step Dots ===== */
+.step-dot {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 500;
+    font-size: 0.9rem;
+    font-family: "Charter", "TsangerJinKai02", "Songti SC", serif;
+    background: var(--kami-ink);
+    color: var(--kami-bg);
+    border: none;
+    box-shadow: none;
+}
+
+/* ===== Timeline ===== */
+.timeline-line {
+    position: absolute;
+    left: 24px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--kami-border);
+}
+.step-connector::after {
+    background: var(--kami-border) !important;
+}
+.milestone-line::before {
+    background: var(--kami-ink) !important;
+}
+
+/* ===== Status Dots (semantic colors preserved) ===== */
+.status-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; }
+.status-running { background: #22c55e; box-shadow: none; }
+.status-warning { background: #f97316; box-shadow: none; }
+.status-stopped { background: #ef4444; box-shadow: none; }
+.status-idle { background: var(--kami-text-muted); box-shadow: none; }
+
+/* ===== Dropdown Options ===== */
+.dropdown-option {
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: border-color 0.2s;
+    border: 1px solid var(--kami-border);
+    background: var(--kami-card);
+    color: var(--kami-text);
+}
+.dropdown-option:hover {
+    border-color: var(--kami-ink);
+    color: var(--kami-ink);
+}
+.dropdown-option.selected {
+    border-color: var(--kami-ink);
+    color: var(--kami-ink);
+    background: rgba(27, 54, 93, 0.05);
+}
+
+/* ===== Resource Card ===== */
+.resource-card {
+    background: var(--kami-card);
+    border: 1px solid var(--kami-border);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: box-shadow 0.3s ease;
+}
+.resource-card:hover {
+    box-shadow: var(--kami-shadow-whisper);
+}
+
+/* ===== Device Row (EMS) ===== */
+.device-row {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr 1fr 1fr;
+    gap: 8px;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--kami-border);
+    align-items: center;
+    transition: background 0.2s;
+    font-size: 0.85rem;
+}
+.device-row:hover { background: rgba(27, 54, 93, 0.03); }
+.device-row:last-child { border-bottom: none; }
+
+/* ===== Phone Frame (EMS) ===== */
+.phone-frame {
+    width: 280px;
+    height: 560px;
+    border: 2px solid var(--kami-border);
+    border-radius: 24px;
+    background: var(--kami-card);
+    overflow: hidden;
+    position: relative;
+    box-shadow: var(--kami-shadow-whisper);
+}
+.phone-notch {
+    width: 120px;
+    height: 20px;
+    background: var(--kami-bg);
+    border-radius: 0 0 12px 12px;
+    margin: 0 auto;
+}
+.phone-content {
+    padding: 8px 12px;
+    height: calc(100% - 20px);
+    overflow-y: auto;
+    font-size: 12px;
+    color: var(--kami-text-secondary);
+}
+
+/* ===== Chart Bars ===== */
+.chart-bar {
+    background: var(--kami-ink);
+    border-radius: 4px 4px 0 0;
+    transition: height 0.5s ease;
+}
+.chart-bar-warning {
+    background: #f97316;
+    border-radius: 4px 4px 0 0;
+}
+.chart-bar-danger {
+    background: #ef4444;
+    border-radius: 4px 4px 0 0;
+}
+
+/* ===== Vicious Arrow (no animation) ===== */
+.vicious-arrow {
+    stroke-dasharray: 8 4;
+    animation: none;
+}
+
+/* ===== Inventory Bar (VSM) ===== */
+.inventory-bar {
+    height: 24px;
+    border-radius: 4px;
+    display: flex;
+    overflow: hidden;
+}
+
+/* ===== Cycle Node (no float animation) ===== */
+.cycle-node {
+    animation: none !important;
+}
+
+/* ===== Metric Number ===== */
+.metric-number {
+    font-family: "Charter", "TsangerJinKai02", "Songti SC", serif;
+    font-size: 2rem;
+    font-weight: 500;
+    line-height: 1;
+    color: var(--kami-ink);
+}
+
+/* ===== Bottleneck Pulse (no animation) ===== */
+.bottleneck-pulse { animation: none !important; }
+.arrow-flow { animation: none !important; }
+
+/* ===== Scan Line (EMS inspection effect) ===== */
+@keyframes scanLine {
+    0%, 100% { top: 10%; }
+    50% { top: 90%; }
+}
+
+/* ===== Scroll-triggered Fade ===== */
+.fade-up, .animate-on-scroll {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.fade-up.visible, .animate-on-scroll.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ===== Gradient Text Override (Kami: no gradient text) ===== */
+.gradient-text {
+    background: none !important;
+    -webkit-background-clip: unset !important;
+    -webkit-text-fill-color: var(--kami-ink) !important;
+    background-clip: unset !important;
+    color: var(--kami-ink);
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+    .section-title { font-size: 1.25rem; }
+    .device-row { grid-template-columns: 1fr 1.5fr 1fr; }
+    .device-row .hide-mobile { display: none; }
+}
