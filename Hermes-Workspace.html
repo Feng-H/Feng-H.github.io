@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hermes Workspace — 演示</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config={theme:{extend:{colors:{canvas:'#F5F4ED',carbon:'#2D3748',ink:'#1B365D',warmgray:'#718096',ivory:'#faf9f5',border:'#e8e6dc'},fontFamily:{serif:['"Charter"','"TsangerJinKai02"','"Songti SC"','serif'],sans:['"Inter"','"PingFang SC"','sans-serif'],mono:['"JetBrains Mono"','monospace']}}}}
+</script>
+<link rel="stylesheet" href="kami-demo.css">
+</head>
+<body>
+
+<!-- Nav -->
+<nav class="fixed top-0 w-full z-50 bg-canvas/90 backdrop-blur-sm border-b border-border">
+<div class="max-w-6xl mx-auto px-6 py-3 flex items-center justify-between">
+  <div class="flex items-center gap-3">
+    <a href="index.html" class="kami-back-link">&larr; Resume</a>
+    <span class="text-border">|</span>
+    <span class="serif-title text-sm">Hermes Workspace</span>
+    <span class="text-xs text-warmgray opacity-60">Agent Hub</span>
+  </div>
+  <div class="hidden md:flex items-center gap-1" id="navLinks">
+    <a href="#step1" class="nav-link">架构</a>
+    <a href="#step2" class="nav-link">Wiki</a>
+    <a href="#step3" class="nav-link">Pipeline</a>
+    <a href="#step4" class="nav-link">Health</a>
+    <a href="#step5" class="nav-link">Cron</a>
+  </div>
+</div>
+</nav>
+
+<!-- Hero -->
+<section class="pt-28 pb-20 px-6 text-center">
+<div class="max-w-3xl mx-auto">
+  <div class="inline-flex items-center gap-2 px-4 py-1.5 border border-ink/15 text-ink text-xs mono-label mb-6 uppercase tracking-widest">
+    AI Agent Workspace
+  </div>
+  <h1 class="text-4xl md:text-5xl serif-title mb-4 leading-tight text-ink">Hermes<br>Workspace</h1>
+  <p class="text-warmgray text-lg max-w-xl mx-auto mb-8">基于 Agent 的个人效率中枢 — 知识管理、内容创作、健康追踪、自主运维，100+ Skill 驱动全场景自动化</p>
+  <div class="flex flex-wrap justify-center gap-3 text-xs mono-label">
+    <span class="tag">LLM Wiki</span>
+    <span class="tag">内容流水线</span>
+    <span class="tag">微信发布</span>
+    <span class="tag">家庭健康</span>
+    <span class="tag">Cron 自治</span>
+  </div>
+</div>
+</section>
+
+<!-- Steps -->
+<div class="max-w-5xl mx-auto px-6 pb-20">
+
+<!-- Step 1: Architecture -->
+<section id="step1" class="mb-20 fade-up">
+<div class="flex items-start gap-6">
+  <div class="flex-shrink-0"><div class="step-dot">1</div></div>
+  <div class="flex-1 pt-2">
+    <span class="tag mb-3">Architecture</span>
+    <h2 class="text-2xl serif-title mt-2 mb-2">系统架构总览</h2>
+    <p class="text-warmgray text-sm mb-6">Hermes Agent 作为中枢，通过 100+ Skill 连接多个平台，所有内容沉淀到 Wiki 知识库，Cron 实现全天候自治运行</p>
+
+    <!-- Architecture SVG -->
+    <div class="glow-card p-6 max-w-2xl mx-auto">
+      <svg viewBox="0 0 520 300" xmlns="http://www.w3.org/2000/svg" class="w-full">
+        <!-- Platform layer -->
+        <text x="260" y="20" text-anchor="middle" font-size="10" fill="#718096" font-family="JetBrains Mono">ENTRY POINTS</text>
+        <rect x="40" y="30" width="100" height="32" rx="4" fill="#F5F4ED" stroke="#e8e6dc"/>
+        <text x="90" y="50" text-anchor="middle" font-size="11" fill="#1B365D" font-family="Charter">飞书</text>
+        <rect x="160" y="30" width="100" height="32" rx="4" fill="#F5F4ED" stroke="#e8e6dc"/>
+        <text x="210" y="50" text-anchor="middle" font-size="11" fill="#1B365D" font-family="Charter">微信公众号</text>
+        <rect x="280" y="30" width="100" height="32" rx="4" fill="#F5F4ED" stroke="#e8e6dc"/>
+        <text x="330" y="50" text-anchor="middle" font-size="11" fill="#1B365D" font-family="Charter">ClawEmail</text>
+        <rect x="400" y="30" width="80" height="32" rx="4" fill="#F5F4ED" stroke="#e8e6dc"/>
+        <text x="440" y="50" text-anchor="middle" font-size="11" fill="#1B365D" font-family="Charter">CLI</text>
+
+        <!-- Arrows down -->
+        <line x1="90" y1="62" x2="90" y2="95" stroke="#e8e6dc" stroke-width="1.5" marker-end="url(#arrowGray)"/>
+        <line x1="210" y1="62" x2="210" y2="95" stroke="#e8e6dc" stroke-width="1.5" marker-end="url(#arrowGray)"/>
+        <line x1="330" y1="62" x2="330" y2="95" stroke="#e8e6dc" stroke-width="1.5" marker-end="url(#arrowGray)"/>
+        <line x1="440" y1="62" x2="440" y2="95" stroke="#e8e6dc" stroke-width="1.5" marker-end="url(#arrowGray)"/>
+
+        <!-- Agent core -->
+        <rect x="60" y="95" width="400" height="44" rx="6" fill="#1B365D"/>
+        <text x="260" y="121" text-anchor="middle" font-size="14" fill="#F5F4ED" font-family="Charter" font-weight="500">Hermes Agent</text>
+        <text x="260" y="133" text-anchor="middle" font-size="9" fill="#F5F4ED" opacity="0.6" font-family="JetBrains Mono">config.yaml + SOUL.md + MEMORY.md</text>
+
+        <!-- Arrow down -->
+        <line x1="260" y1="139" x2="260" y2="168" stroke="#1B365D" stroke-width="1.5" marker-end="url(#arrowInk)"/>
+
+        <!-- Skills layer -->
+        <text x="260" y="165" text-anchor="middle" font-size="10" fill="#718096" font-family="JetBrains Mono">100+ SKILLS</text>
+        <rect x="30" y="175" width="88" height="28" rx="4" fill="#faf9f5" stroke="#e8e6dc"/>
+        <text x="74" y="193" text-anchor="middle" font-size="9" fill="#1B365D">llm-wiki</text>
+        <rect x="128" y="175" width="88" height="28" rx="4" fill="#faf9f5" stroke="#e8e6dc"/>
+        <text x="172" y="193" text-anchor="middle" font-size="9" fill="#1B365D">content-wf</text>
+        <rect x="226" y="175" width="88" height="28" rx="4" fill="#faf9f5" stroke="#e8e6dc"/>
+        <text x="270" y="193" text-anchor="middle" font-size="9" fill="#1B365D">wechat-pub</text>
+        <rect x="324" y="175" width="88" height="28" rx="4" fill="#faf9f5" stroke="#e8e6dc"/>
+        <text x="368" y="193" text-anchor="middle" font-size="9" fill="#1B365D">health-rec</text>
+        <rect x="30" y="210" width="88" height="28" rx="4" fill="#faf9f5" stroke="#e8e6dc"/>
+        <text x="74" y="228" text-anchor="middle" font-size="9" fill="#1B365D">claw-email</text>
+        <rect x="128" y="210" width="88" height="28" rx="4" fill="#faf9f5" stroke="#e8e6dc"/>
+        <text x="172" y="228" text-anchor="middle" font-size="9" fill="#1B365D">kanban</text>
+        <rect x="226" y="210" width="88" height="28" rx="4" fill="#faf9f5" stroke="#e8e6dc"/>
+        <text x="270" y="228" text-anchor="middle" font-size="9" fill="#1B365D">research</text>
+        <rect x="324" y="210" width="88" height="28" rx="4" fill="#faf9f5" stroke="#e8e6dc"/>
+        <text x="368" y="228" text-anchor="middle" font-size="9" fill="#1B365D">mlops</text>
+        <text x="440" y="228" text-anchor="middle" font-size="18" fill="#e8e6dc">...</text>
+
+        <!-- Arrows down to Wiki -->
+        <line x1="260" y1="245" x2="260" y2="268" stroke="#1B365D" stroke-width="1.5" marker-end="url(#arrowInk)"/>
+
+        <!-- Wiki -->
+        <rect x="100" y="268" width="320" height="28" rx="6" fill="#faf9f5" stroke="#1B365D" stroke-width="1"/>
+        <text x="260" y="286" text-anchor="middle" font-size="12" fill="#1B365D" font-family="Charter" font-weight="500">Wiki 知识库 · Obsidian Vault · GitHub Sync</text>
+
+        <!-- Cron sidebar -->
+        <rect x="440" y="100" width="68" height="196" rx="4" fill="#faf9f5" stroke="#e8e6dc" stroke-dasharray="4 2"/>
+        <text x="474" y="118" text-anchor="middle" font-size="9" fill="#1B365D" font-family="JetBrains Mono">CRON</text>
+        <line x1="455" y1="128" x2="493" y2="128" stroke="#e8e6dc"/>
+        <text x="474" y="145" text-anchor="middle" font-size="8" fill="#718096">02:30</text>
+        <text x="474" y="156" text-anchor="middle" font-size="7" fill="#718096">wiki-refine</text>
+        <text x="474" y="175" text-anchor="middle" font-size="8" fill="#718096">03:00</text>
+        <text x="474" y="186" text-anchor="middle" font-size="7" fill="#718096">daily-sync</text>
+        <text x="474" y="205" text-anchor="middle" font-size="8" fill="#718096">*/2min</text>
+        <text x="474" y="216" text-anchor="middle" font-size="7" fill="#718096">email-check</text>
+        <circle cx="474" cy="240" r="4" fill="#22c55e"/>
+
+        <!-- Arrow markers -->
+        <defs>
+          <marker id="arrowGray" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+            <path d="M 0 0 L 10 5 L 0 10 Z" fill="#e8e6dc"/>
+          </marker>
+          <marker id="arrowInk" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+            <path d="M 0 0 L 10 5 L 0 10 Z" fill="#1B365D"/>
+          </marker>
+        </defs>
+      </svg>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- Step 2: Wiki -->
+<section id="step2" class="mb-20 fade-up">
+<div class="flex items-start gap-6">
+  <div class="flex-shrink-0"><div class="step-dot">2</div></div>
+  <div class="flex-1 pt-2">
+    <span class="tag mb-3">Knowledge Base</span>
+    <h2 class="text-2xl serif-title mt-2 mb-2">LLM Wiki 知识库</h2>
+    <p class="text-warmgray text-sm mb-6">基于 Karpathy LLM Wiki 模式，三层架构实现知识的获取、提炼与结构化管理</p>
+
+    <!-- Three layers -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+      <div class="glow-card p-4">
+        <div class="text-xs mono-label text-ink opacity-60 mb-2">LAYER 1</div>
+        <div class="text-sm serif-title mb-1">Raw 素材层</div>
+        <p class="text-xs text-warmgray">不可变原始素材 — URL 抓取、PDF、对话记录、手写笔记。Agent 只读，带 SHA256 校验。</p>
+        <div class="mt-3 text-xs mono-label text-warmgray opacity-60">wiki/raw/{domain}/</div>
+      </div>
+      <div class="glow-card p-4">
+        <div class="text-xs mono-label text-ink opacity-60 mb-2">LAYER 2</div>
+        <div class="text-sm serif-title mb-1">Derived 知识层</div>
+        <p class="text-xs text-warmgray">Agent 管理的知识页面 — 实体、概念、对比分析。YAML frontmatter + Wikilinks。</p>
+        <div class="mt-3 text-xs mono-label text-warmgray opacity-60">wiki/实体/ · 概念/ · 对比/</div>
+      </div>
+      <div class="glow-card p-4">
+        <div class="text-xs mono-label text-ink opacity-60 mb-2">LAYER 3</div>
+        <div class="text-sm serif-title mb-1">Schema 规范层</div>
+        <p class="text-xs text-warmgray">结构定义与标签分类体系。SCHEMA.md 是 Agent 间交接协议，任何 Agent 读取即可接管。</p>
+        <div class="mt-3 text-xs mono-label text-warmgray opacity-60">wiki/SCHEMA.md</div>
+      </div>
+    </div>
+
+    <!-- Ingest demo -->
+    <div class="space-y-4 max-w-lg">
+      <div class="text-xs mono-label text-warmgray opacity-60 mb-2">INGEST 操作演示</div>
+      <div class="chat-bubble chat-user">帮我收录这篇关于某制造企业 MES 系统实施的文章</div>
+      <div class="chat-bubble chat-ai">
+        <div class="text-ink font-medium text-xs mb-2">Hermes</div>
+        正在处理 ...<br><br>
+        1. <code>web_extract</code> 抓取全文 (SHA256: <span class="mono-label text-xs">a3f2...c891</span>)<br>
+        2. 保存至 <code>wiki/raw/manufacturing-ai/mes-implementation.md</code><br>
+        3. 识别实体: <strong>某 MES 系统厂商</strong>、<strong>产线调度</strong>、<strong>OEE 优化</strong><br>
+        4. 创建/更新 derived pages → <code>wiki/实体/</code><br>
+        5. 更新 <code>index.md</code> 和 <code>log.md</code><br><br>
+        归档完成。已关联 2 个已有概念页面。
+      </div>
+      <div class="feishu-card max-w-sm">
+        <div class="feishu-card-header">提炼规则</div>
+        <div class="p-4 text-xs text-warmgray space-y-1">
+          <div>&#8226; 2+ raw sources 提及同一实体时才提取</div>
+          <div>&#8226; 编译结论可修改，证据时间线只追加</div>
+          <div>&#8226; 每日 02:30 cron 自动扫描跨来源模式</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- Step 3: Content Pipeline -->
+<section id="step3" class="mb-20 fade-up">
+<div class="flex items-start gap-6">
+  <div class="flex-shrink-0"><div class="step-dot">3</div></div>
+  <div class="flex-1 pt-2">
+    <span class="tag mb-3">Content Pipeline</span>
+    <h2 class="text-2xl serif-title mt-2 mb-2">内容创作流水线</h2>
+    <p class="text-warmgray text-sm mb-6">三阶段流水线：碎片化输入 → 结构化输出 — 降低写作启动门槛，消除空白文档焦虑</p>
+
+    <!-- Pipeline flow -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+      <div class="glow-card p-4 relative">
+        <div class="text-xs mono-label text-ink opacity-60 mb-2">STAGE 1</div>
+        <div class="text-sm serif-title mb-1">Essay Dialog</div>
+        <p class="text-xs text-warmgray">对话式思考记录。AI 角色 = 有准备的对话者，参与碰撞而非代笔。记录思考过程，而非产出结论。</p>
+        <div class="mt-3 px-2 py-1 bg-canvas rounded text-[10px] mono-label text-warmgray">wiki/raw/{domain}/essay-topic.md</div>
+      </div>
+      <div class="glow-card p-4">
+        <div class="text-xs mono-label text-ink opacity-60 mb-2">STAGE 2</div>
+        <div class="text-sm serif-title mb-1">Article</div>
+        <p class="text-xs text-warmgray">从现有素材产出结构化文章。AI 采访、提取、结构化。叙事结构：困境 → 碰壁 → 意外解法 → 升级。</p>
+        <div class="mt-3 px-2 py-1 bg-canvas rounded text-[10px] mono-label text-warmgray">wiki/raw/{domain}/descriptive-title.md</div>
+      </div>
+      <div class="glow-card p-4">
+        <div class="text-xs mono-label text-ink opacity-60 mb-2">STAGE 3</div>
+        <div class="text-sm serif-title mb-1">WeChat Publish</div>
+        <p class="text-xs text-warmgray">Markdown → Kami 风格 HTML → 微信草稿。自动配图（matplotlib），支持封面 + 内嵌图片上传。</p>
+        <div class="mt-3 px-2 py-1 bg-canvas rounded text-[10px] mono-label text-warmgray">API: draft/add → 手动发布</div>
+      </div>
+    </div>
+
+    <!-- WeChat pipeline detail -->
+    <div class="feishu-card max-w-xl mb-6">
+      <div class="feishu-card-header">微信公众号发布管道</div>
+      <div class="p-4">
+        <div class="flex items-center gap-2 flex-wrap text-xs">
+          <span class="px-2 py-1 bg-canvas rounded mono-label">飞书语音</span>
+          <span class="text-warmgray">&rarr;</span>
+          <span class="px-2 py-1 bg-canvas rounded mono-label">AI 累积</span>
+          <span class="text-warmgray">&rarr;</span>
+          <span class="px-2 py-1 bg-canvas rounded mono-label">生成初稿</span>
+          <span class="text-warmgray">&rarr;</span>
+          <span class="px-2 py-1 bg-canvas rounded mono-label">用户审校</span>
+          <span class="text-warmgray">&rarr;</span>
+          <span class="px-2 py-1 bg-canvas rounded mono-label">matplotlib 配图</span>
+          <span class="text-warmgray">&rarr;</span>
+          <span class="px-2 py-1 bg-canvas rounded mono-label">HTML 转换</span>
+          <span class="text-warmgray">&rarr;</span>
+          <span class="px-2 py-1 bg-ink text-canvas rounded mono-label">微信草稿</span>
+        </div>
+        <div class="mt-3 text-[10px] text-warmgray space-y-0.5">
+          <div>&#8226; HTML 转换器：Kami 风格排版（section headers + editorial quotes + callout boxes）</div>
+          <div>&#8226; 约束：标题 ~10 中文字，摘要 ~12 字，正文无外链（仅「阅读原文」）</div>
+          <div>&#8226; 核心价值：AI 是编辑不是代笔，碎片化输入 → 结构化输出</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Chat demo -->
+    <div class="space-y-4 max-w-lg">
+      <div class="chat-bubble chat-user">我最近在思考一个问题，为什么很多企业上 MES 系统最后都失败了...</div>
+      <div class="chat-bubble chat-ai">
+        <div class="text-ink font-medium text-xs mb-2">Hermes · Essay Mode</div>
+        这个观察很有意思。我见过几个可能的切入点：<br><br>
+        <strong>切入 1</strong>：MES 不是 IT 项目，是管理变革。很多企业把它当成"装个软件"。<br>
+        <strong>切入 2</strong>：数据治理先行。没有干净的数据，MES 就是垃圾进垃圾出。<br>
+        <strong>切入 3</strong>：范围蔓延。什么都想管，结果什么都没管好。<br><br>
+        你更倾向哪个方向？或者你有具体案例可以聊？
+      </div>
+      <div class="chat-bubble chat-user">第二个吧，我之前在产线上就遇到过，基础数据不准导致排产完全跑偏...</div>
+      <div class="chat-bubble chat-ai">
+        <div class="text-ink font-medium text-xs mb-2">Hermes · Auto-save</div>
+        已保存至 <code>wiki/raw/manufacturing-ai/essay-mes-data-governance.md</code><br>
+        继续聊 — 我会把对话中的关键观点和论据都记录下来，方便之后整理成文章。
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- Step 4: Family Health -->
+<section id="step4" class="mb-20 fade-up">
+<div class="flex items-start gap-6">
+  <div class="flex-shrink-0"><div class="step-dot">4</div></div>
+  <div class="flex-1 pt-2">
+    <span class="tag mb-3">Health Tracker</span>
+    <h2 class="text-2xl serif-title mt-2 mb-2">家庭健康管理</h2>
+    <p class="text-warmgray text-sm mb-6">纯文件系统架构，Markdown + YAML frontmatter。SCHEMA.md 作为 Agent 合约，任何 AI Agent 读取即可接管。</p>
+
+    <!-- Health workflow -->
+    <div class="space-y-4 max-w-lg mb-6">
+      <div class="text-xs mono-label text-warmgray opacity-60 mb-2">就诊记录流程</div>
+      <div class="chat-bubble chat-user">今天带家人去看了呼吸科，这是检验报告的照片</div>
+      <div class="chat-bubble chat-ai">
+        <div class="text-ink font-medium text-xs mb-2">Hermes · Health Record</div>
+        收到，正在处理 ...<br><br>
+        1. 创建目录 <code>family-health/members/A/records/2026-05-04-呼吸科/</code><br>
+        2. OCR 识别检验报告 (GLM-4.6V-Flash)<br>
+        3. 保存原图 + 结构化数据<br>
+        4. 更新 <code>profile.md</code> 健康档案<br><br>
+        <span class="text-xs text-warmgray">核心原则：绝不让用户手打报告数据。</span>
+      </div>
+    </div>
+
+    <!-- Medication demo -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div class="feishu-card">
+        <div class="feishu-card-header">药品库存示例</div>
+        <div class="p-4 space-y-3">
+          <div class="flex items-center justify-between text-sm">
+            <div>
+              <div class="font-medium">示例药品 A</div>
+              <div class="text-xs text-warmgray">口服 · 每日 2 次</div>
+            </div>
+            <div class="text-right">
+              <div class="text-xs text-warmgray">有效期</div>
+              <div class="mono-label text-sm">2027.03</div>
+            </div>
+          </div>
+          <div class="border-t border-border"></div>
+          <div class="flex items-center justify-between text-sm">
+            <div>
+              <div class="font-medium">示例药品 B</div>
+              <div class="text-xs text-warmgray">外用 · 每日 1 次</div>
+            </div>
+            <div class="text-right">
+              <div class="text-xs text-warmgray">有效期</div>
+              <div class="mono-label text-sm" style="color:#f97316">2026.06</div>
+            </div>
+          </div>
+          <div class="border-t border-border"></div>
+          <div class="flex items-center justify-between text-sm">
+            <div>
+              <div class="font-medium">示例药品 C</div>
+              <div class="text-xs text-warmgray">口服 · 每日 3 次</div>
+            </div>
+            <div class="text-right">
+              <div class="text-xs text-warmgray">有效期</div>
+              <div class="mono-label text-sm" style="color:#ef4444">2026.05</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="feishu-card">
+        <div class="feishu-card-header">SCHEMA.md Agent 合约</div>
+        <div class="p-4 text-xs text-warmgray space-y-2">
+          <p>SCHEMA.md 是一种<strong class="text-carbon">协议文档</strong>，定义了数据结构、命名规范和操作约束。</p>
+          <div class="bg-canvas p-2 rounded mono-label text-[10px] leading-relaxed">
+            family-health/<br>
+            &nbsp;&nbsp;SCHEMA.md &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-ink"># Agent 合约</span><br>
+            &nbsp;&nbsp;members/{name}/<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;profile.md &nbsp;&nbsp;<span class="text-ink"># 健康档案</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;records/YYYY-MM-DD-科室/<br>
+            &nbsp;&nbsp;medications/<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;inventory.md <span class="text-ink"># 库存</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;images/ &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-ink"># 包装照片</span>
+          </div>
+          <p>任何 Agent 读取此文件即可理解并操作整个系统，实现无缝交接。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- Step 5: Cron -->
+<section id="step5" class="mb-20 fade-up">
+<div class="flex items-start gap-6">
+  <div class="flex-shrink-0"><div class="step-dot">5</div></div>
+  <div class="flex-1 pt-2">
+    <span class="tag mb-3">Autonomous Ops</span>
+    <h2 class="text-2xl serif-title mt-2 mb-2">自主运维</h2>
+    <p class="text-warmgray text-sm mb-6">4 个 Cron Job 实现全天候自治运行 — 邮件处理、知识提炼、数据备份，无需人工干预</p>
+
+    <!-- Cron table -->
+    <div class="feishu-card max-w-xl mb-6">
+      <div class="feishu-card-header">定时任务列表</div>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>任务</th>
+            <th>调度</th>
+            <th>状态</th>
+            <th>执行次数</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="text-left pl-4 text-sm">Wiki Daily Refine</td>
+            <td class="mono-label text-xs">02:30</td>
+            <td><span class="status-dot status-running"></span></td>
+            <td class="metric-number text-base" data-target="3600" style="font-size:0.9rem">0</td>
+          </tr>
+          <tr>
+            <td class="text-left pl-4 text-sm">Workspace Sync</td>
+            <td class="mono-label text-xs">03:00</td>
+            <td><span class="status-dot status-running"></span></td>
+            <td class="metric-number text-base" data-target="3650" style="font-size:0.9rem">0</td>
+          </tr>
+          <tr>
+            <td class="text-left pl-4 text-sm">Email Check</td>
+            <td class="mono-label text-xs">*/2 min</td>
+            <td><span class="status-dot status-running"></span></td>
+            <td class="metric-number text-base" data-target="4200" style="font-size:0.9rem">0</td>
+          </tr>
+          <tr>
+            <td class="text-left pl-4 text-sm">Job Monitor</td>
+            <td class="mono-label text-xs">once</td>
+            <td><span class="status-dot status-idle"></span></td>
+            <td class="metric-number text-base" data-target="1" style="font-size:0.9rem">0</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Key metrics -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div class="glow-card p-4 text-center">
+        <div class="metric-number" data-target="100">0</div>
+        <div class="text-xs text-warmgray mt-1 mono-label">Active Skills</div>
+      </div>
+      <div class="glow-card p-4 text-center">
+        <div class="metric-number" data-target="16">0</div>
+        <div class="text-xs text-warmgray mt-1 mono-label">Skill 分类</div>
+      </div>
+      <div class="glow-card p-4 text-center">
+        <div class="metric-number" data-target="4">0</div>
+        <div class="text-xs text-warmgray mt-1 mono-label">Cron Jobs</div>
+      </div>
+      <div class="glow-card p-4 text-center">
+        <div class="metric-number" data-target="24">0</div>
+        <div class="text-xs text-warmgray mt-1 mono-label">7 运行时长</div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+</div>
+
+<!-- Footer -->
+<footer class="border-t border-border py-10 text-center">
+  <div class="text-xs mono-label text-warmgray mb-2">
+    <a href="https://github.com/Feng-H/HermesAgentWorkspace" class="text-ink hover:underline">github.com/Feng-H/HermesAgentWorkspace</a>
+  </div>
+  <div class="text-xs text-warmgray opacity-50">Hermes Agent · 100+ Skills · LLM Wiki · Content Pipeline · Family Health · Cron Autonomous Ops</div>
+</footer>
+
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      entry.target.querySelectorAll('.metric-number[data-target]').forEach(el => {
+        animateNumber(el, parseFloat(el.dataset.target));
+      });
+    }
+  });
+}, { threshold: 0.15 });
+document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+function animateNumber(el, target) {
+  const duration = 1500;
+  const start = performance.now();
+  const isFloat = target % 1 !== 0;
+  function update(now) {
+    const progress = Math.min((now - start) / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    const current = target * eased;
+    el.textContent = isFloat ? current.toFixed(1) : Math.round(current);
+    if (progress < 1) requestAnimationFrame(update);
+  }
+  requestAnimationFrame(update);
+}
+
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('#navLinks a');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => { if (window.scrollY >= s.offsetTop - 200) current = s.id; });
+  navLinks.forEach(link => {
+    link.classList.toggle('active', link.getAttribute('href') === '#' + current);
+  });
+});
+</script>
+</body>
+</html>
