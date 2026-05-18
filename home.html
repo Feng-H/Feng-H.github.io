@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>John Huang | AI & Manufacturing Digital Transformation</title>
+    <!-- SVG Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='12' fill='%231B365D'/><text x='50' y='68' font-family='serif' font-size='55' font-weight='bold' fill='white' text-anchor='middle'>H</text></svg>">
+    <style>
+        /* ── Font Faces ── */
+        @font-face {
+            font-family: 'TsangerJinKai02';
+            src: url('https://lib.baomitu.com/fonts/tsangerjinkai/tsangerjinkai.woff2') format('woff2');
+            font-display: swap;
+        }
+
+        /* ── Design Tokens ── */
+        :root {
+            --canvas: #F5F4ED;
+            --carbon: #2D3748;
+            --ink: #1B365D;
+            --warmgray: #718096;
+            --ff-serif: "Charter", "TsangerJinKai02", "Songti SC", serif;
+            --ff-sans: "Inter", "PingFang SC", sans-serif;
+            --ff-mono: "JetBrains Mono", monospace;
+        }
+
+        /* ── Reset & Base ── */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { font-size: 16px; -webkit-text-size-adjust: 100%; }
+        body {
+            background-color: var(--canvas);
+            color: var(--carbon);
+            font-family: var(--ff-serif);
+            line-height: 1.55;
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        img { display: block; max-width: 100%; }
+        a { color: inherit; }
+
+        /* ── Bilingual Toggle ── */
+        body.lang-zh [data-lang="en"] { display: none; }
+        body.lang-en [data-lang="zh"] { display: none; }
+
+        /* ── Typography Helpers ── */
+        .serif-title { font-family: var(--ff-serif); font-weight: 500; }
+        .font-mono { font-family: var(--ff-mono); }
+        .text-ink { color: var(--ink); }
+        .text-carbon { color: var(--carbon); }
+        .text-warmgray { color: var(--warmgray); }
+        .italic { font-style: italic; }
+        .uppercase { text-transform: uppercase; }
+        .lowercase { text-transform: lowercase; }
+        .tracking-widest { letter-spacing: 0.1em; }
+        .tracking-wider { letter-spacing: 0.05em; }
+        .tracking-tight { letter-spacing: -0.025em; }
+        .tracking-tighter { letter-spacing: -0.05em; }
+
+        /* ── Layout ── */
+        .container { max-width: 768px; margin-left: auto; margin-right: auto; padding-left: 2rem; padding-right: 2rem; padding-top: 5rem; padding-bottom: 5rem; position: relative; }
+        @media (min-width: 768px) {
+            .container { padding-top: 8rem; padding-bottom: 8rem; }
+        }
+
+        /* ── Language Switcher ── */
+        .lang-switcher { position: absolute; top: 2.5rem; right: 2rem; display: flex; gap: 1rem; font-size: 0.75rem; font-family: var(--ff-mono); color: var(--warmgray); text-transform: uppercase; letter-spacing: 0.1em; }
+        @media (min-width: 768px) {
+            .lang-switcher { right: 0; }
+        }
+        .lang-switcher button { background: none; border: none; cursor: pointer; transition: color 0.15s ease; padding: 0; font: inherit; }
+        .lang-switcher button:hover { color: var(--ink); }
+        .lang-switcher button:focus { outline: none; }
+
+        /* ── Header ── */
+        .header { display: flex; flex-direction: column; gap: 2rem; margin-bottom: 6rem; }
+        @media (min-width: 768px) {
+            .header { flex-direction: row; align-items: center; }
+        }
+        .avatar-wrap {
+            width: 6rem; height: 6rem; border-radius: 9999px;
+            box-shadow: 0 0 0 1px rgba(27, 54, 93, 0.08);
+            transition: box-shadow 0.3s ease;
+            overflow: hidden; flex-shrink: 0;
+            align-self: flex-start; background-color: var(--ink);
+        }
+        @media (min-width: 768px) {
+            .avatar-wrap { width: 8rem; height: 8rem; align-self: auto; }
+        }
+        .avatar-wrap img { width: 100%; height: 100%; object-fit: cover; object-position: center; }
+        .header-content { flex: 1; display: flex; flex-direction: column; gap: 1.5rem; }
+        .header-intro { display: flex; flex-direction: column; gap: 0.75rem; }
+        .header-name { font-size: 3rem; color: var(--ink); letter-spacing: -0.025em; }
+        .header-subtitle { font-size: 1.25rem; color: var(--warmgray); line-height: 1.2; }
+        .header-links { display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.75rem; font-family: var(--ff-mono); letter-spacing: 0.05em; align-items: flex-start; opacity: 0.8; text-transform: uppercase; }
+        .header-links-row { display: flex; flex-wrap: wrap; gap: 1.5rem 1.5rem; align-items: center; }
+        .header-link { border-bottom: 1px solid transparent; transition: all 0.15s ease; text-decoration: none; }
+        .header-link:hover { color: var(--ink); border-bottom-color: var(--ink); }
+
+        /* ── Sections ── */
+        .section { margin-bottom: 6rem; }
+        .section-title { font-size: 1.5rem; display: flex; align-items: center; margin-bottom: 2.5rem; }
+        .section-num { font-family: var(--ff-mono); opacity: 0.3; margin-right: 0.5rem; font-size: 0.9em; }
+        .section + .section { margin-top: 0; }
+
+        /* ── Kami Card ── */
+        .kami-card {
+            box-shadow: 0 0 0 1px rgba(27, 54, 93, 0.08);
+            transition: box-shadow 0.3s ease;
+        }
+        .kami-card:hover {
+            box-shadow: 0 0 0 1px rgba(27, 54, 93, 0.12), 0 8px 30px -4px rgba(27, 54, 93, 0.04);
+        }
+
+        /* ── Project Grid ── */
+        .project-grid { display: grid; grid-template-columns: 1fr; gap: 2rem; }
+        @media (min-width: 768px) {
+            .project-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        }
+        .project-card { padding: 2rem; border-radius: 0.25rem; display: flex; flex-direction: column; gap: 1rem; }
+        .project-card-title { font-size: 1.125rem; transition: color 0.15s ease; }
+        .project-card:hover .project-card-title { color: var(--ink); }
+        .project-card-desc { font-size: 0.875rem; color: rgba(45, 55, 72, 0.8); line-height: 1.45; }
+        .project-card-tags { display: flex; gap: 0.5rem; font-size: 10px; font-family: var(--ff-mono); font-weight: 700; letter-spacing: 0.1em; color: var(--ink); text-transform: uppercase; }
+        .project-card-tags span { padding: 0.125rem 0.375rem; border: 1px solid rgba(27, 54, 93, 0.2); }
+        .project-card-footer { padding-top: 1rem; border-top: 1px solid rgba(27, 54, 93, 0.05); margin-top: 1rem; display: flex; gap: 1rem; flex-wrap: nowrap; }
+        .project-link { font-size: 0.75rem; font-family: var(--ff-mono); color: var(--ink); text-decoration: none; text-underline-offset: 4px; white-space: nowrap; display: flex; align-items: center; gap: 0.25rem; }
+        .project-link:hover { text-decoration: underline; text-decoration-thickness: 1px; }
+
+        /* ── Experience Timeline ── */
+        .timeline { display: flex; flex-direction: column; gap: 4rem; }
+        .timeline-item { display: flex; gap: 2rem; }
+        .timeline-icon-col { display: flex; flex-direction: column; align-items: center; }
+        .timeline-icon {
+            width: 3rem; height: 3rem; border-radius: 9999px; background-color: #fff;
+            box-shadow: 0 0 0 1px rgba(27, 54, 93, 0.08);
+            overflow: hidden; padding: 0.5rem;
+        }
+        .timeline-icon img { width: 100%; height: 100%; object-fit: contain; }
+        .timeline-line { flex: 1; width: 1px; background-color: rgba(27, 54, 93, 0.1); margin-top: 1rem; }
+        .timeline-item:last-child .timeline-line { display: none; }
+        .timeline-content { flex: 1; display: flex; flex-direction: column; gap: 1rem; }
+        .timeline-meta { display: flex; flex-direction: column; gap: 0.25rem; }
+        .timeline-date { font-size: 0.75rem; font-family: var(--ff-mono); color: var(--ink); letter-spacing: 0.1em; opacity: 0.6; text-transform: uppercase; }
+        .timeline-role { font-size: 1.25rem; text-decoration: none; transition: color 0.15s ease; display: inline; }
+        .timeline-role:hover { color: var(--ink); }
+        .timeline-role-sub { font-size: 0.875rem; font-weight: 300; color: var(--warmgray); margin-left: 0.5rem; }
+        .timeline-desc { font-size: 0.875rem; line-height: 1.45; }
+        .timeline-desc strong { font-weight: 600; }
+
+        /* ── Details/Expand ── */
+        details { cursor: default; }
+        details summary { list-style: none; }
+        details summary::-webkit-details-marker { display: none; }
+        .details-toggle { font-size: 10px; font-family: var(--ff-mono); color: var(--ink); text-transform: uppercase; letter-spacing: -0.05em; cursor: pointer; outline: none; }
+        .details-toggle:hover { text-decoration: underline; }
+        .details-list { margin-top: 1rem; font-size: 0.875rem; color: rgba(45, 55, 72, 0.7); display: flex; flex-direction: column; gap: 0.5rem; list-style: none; border-left: 2px solid rgba(27, 54, 93, 0.05); padding-left: 1rem; line-height: 2; }
+        .details-list li strong { font-weight: 600; }
+
+        /* ── Writing Section ── */
+        .writing-list { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 0.75rem; }
+        .writing-list li { font-size: 0.95rem; line-height: 1.6; }
+        .writing-list a { color: var(--ink); text-decoration: none; border-bottom: 1px solid rgba(27, 54, 93, 0.2); transition: border-color 0.15s ease; }
+        .writing-list a:hover { border-bottom-color: var(--ink); }
+        .writing-note { font-size: 0.75rem; font-family: var(--ff-mono); color: var(--warmgray); opacity: 0.6; margin-top: 1.5rem; letter-spacing: 0.05em; }
+
+        /* ── Manifesto ── */
+        .manifesto-section { padding-top: 4rem; border-top: 1px solid rgba(27, 54, 93, 0.1); }
+        .manifesto-text { font-size: 1.125rem; line-height: 2; }
+        .manifesto-footer { font-size: 10px; font-family: var(--ff-mono); color: var(--warmgray); letter-spacing: 0.1em; text-transform: uppercase; padding-top: 2rem; opacity: 0.5; }
+
+        /* ── Page Footer (Kami Attribution) ── */
+        .page-footer { font-size: 10px; font-family: var(--ff-mono); color: var(--warmgray); letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.4; margin-top: 4rem; text-align: center; }
+        .page-footer a { color: var(--warmgray); text-decoration: none; border-bottom: 1px solid transparent; transition: border-color 0.15s ease; }
+        .page-footer a:hover { border-bottom-color: var(--warmgray); }
+
+        /* ── Content Spacing ── */
+        .space-y-4 > * + * { margin-top: 1rem; }
+        .space-y-8 > * + * { margin-top: 2rem; }
+        .space-y-10 > * + * { margin-top: 2.5rem; }
+    </style>
+</head>
+<body class="lang-zh">
+    <script>
+        function setLang(lang) {
+            document.body.classList.remove('lang-zh', 'lang-en');
+            document.body.classList.add('lang-' + lang);
+            document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
+        }
+    </script>
+
+    <main class="container">
+        <!-- Language Switcher -->
+        <div class="lang-switcher">
+            <button onclick="setLang('zh')">ZH</button>
+            <span style="opacity:0.2">/</span>
+            <button onclick="setLang('en')">EN</button>
+        </div>
+
+        <!-- Header -->
+        <header class="header">
+            <!-- Avatar -->
+            <div class="avatar-wrap">
+                <img src="simple.png" alt="John Huang">
+            </div>
+
+            <div class="header-content">
+                <div class="header-intro">
+                    <h1 class="header-name serif-title">
+                        <span data-lang="zh">黄峰</span>
+                        <span data-lang="en">John Huang</span>
+                    </h1>
+                    <h2 class="header-subtitle serif-title">
+                        <span data-lang="zh">设备管理 · 数字化转型 · AI + 制造探索者</span>
+                        <span data-lang="en">Equipment Management Expert · Digital Transformation Lead · AI & Manufacturing Explorer</span>
+                    </h2>
+                </div>
+                <div class="header-links">
+                    <div class="header-links-row">
+                        <a href="https://github.com/Feng-H" target="_blank" class="header-link">github.com/Feng-H</a>
+                        <a href="mailto:huangfeng@duck.com" class="header-link">
+                            huangfeng@duck.com
+                            <span style="opacity:0.5;text-transform:lowercase">
+                                <span data-lang="zh">(Human)</span>
+                                <span data-lang="en">(Human)</span>
+                            </span>
+                        </a>
+                    </div>
+                    <a href="mailto:huangfeng@claw.163.com" class="header-link">
+                        huangfeng@claw.163.com
+                        <span style="opacity:0.5;text-transform:lowercase">
+                            <span data-lang="zh">(Agent)</span>
+                            <span data-lang="en">(Agent)</span>
+                        </span>
+                    </a>
+                </div>
+            </div>
+        </header>
+
+        <!-- 01 Projects -->
+        <section class="section">
+            <h3 class="section-title serif-title text-carbon">
+                <span class="section-num">01 ·</span>
+                <span data-lang="zh">独立项目 (Vibe Coding)</span>
+                <span data-lang="en">Independent Projects (Vibe Coding)</span>
+            </h3>
+
+            <div class="project-grid">
+                <!-- EMS-Claude -->
+                <div class="kami-card project-card">
+                    <h4 class="project-card-title serif-title">EMS-Claude</h4>
+                    <p class="project-card-desc">
+                        <span data-lang="zh">企业级设备管理平台，集成 LLM 智能诊断与飞书机器人。</span>
+                        <span data-lang="en">Enterprise equipment management platform with LLM-powered diagnostics and Lark integration.</span>
+                    </p>
+                    <div class="project-card-tags">
+                        <span>Go/Vue3</span>
+                        <span>RAG</span>
+                    </div>
+                    <div class="project-card-footer">
+                        <a href="EMS-Claude.html" class="project-link">
+                            <span data-lang="zh">查看交互演示</span>
+                            <span data-lang="en">View Interactive Demo</span>
+                        </a>
+                        <a href="https://github.com/Feng-H/EMS-Claude" target="_blank" class="project-link">GitHub</a>
+                    </div>
+                </div>
+
+                <!-- PDCA-with-AI -->
+                <div class="kami-card project-card">
+                    <h4 class="project-card-title serif-title">PDCA-with-AI</h4>
+                    <p class="project-card-desc">
+                        <span data-lang="zh">AI 驱动的问题解决工作流 Agent Skill，支持 SMART 校验与多维表格同步。</span>
+                        <span data-lang="en">AI-driven problem-solving workflow Agent Skill with SMART validation and Bitable sync.</span>
+                    </p>
+                    <div class="project-card-tags">
+                        <span>Skill</span>
+                        <span>Lark</span>
+                    </div>
+                    <div class="project-card-footer">
+                        <a href="PDCA-Skill.html" target="_blank" class="project-link">
+                            <span data-lang="zh">查看交互演示</span>
+                            <span data-lang="en">View Interactive Demo</span>
+                        </a>
+                        <a href="https://github.com/Feng-H/PDCA-with-AI" target="_blank" class="project-link">GitHub</a>
+                    </div>
+                </div>
+
+                <!-- VSM Skill -->
+                <div class="kami-card project-card">
+                    <h4 class="project-card-title serif-title">VSM Skill</h4>
+                    <p class="project-card-desc">
+                        <span data-lang="zh">交互式价值流图 Agent Skill，支持自动渲染 SVG 流程图与精益指标计算。</span>
+                        <span data-lang="en">Interactive Value Stream Mapping Agent Skill with automatic SVG rendering and Lean calculations.</span>
+                    </p>
+                    <div class="project-card-tags">
+                        <span>Python</span>
+                        <span>SVG</span>
+                    </div>
+                    <div class="project-card-footer">
+                        <a href="VSM-skill.html" target="_blank" class="project-link">
+                            <span data-lang="zh">查看交互演示</span>
+                            <span data-lang="en">View Interactive Demo</span>
+                        </a>
+                        <a href="https://github.com/Feng-H/value-stream-mapping-skill" target="_blank" class="project-link">GitHub</a>
+                    </div>
+                </div>
+
+                <!-- Hermes Workspace -->
+                <div class="kami-card project-card">
+                    <h4 class="project-card-title serif-title">Hermes Workspace</h4>
+                    <p class="project-card-desc">
+                        <span data-lang="zh">基于 Agent 的个人效率中枢，实现 LLM Wiki 知识库管理、微信公众号自动化发布及深度行业调研。</span>
+                        <span data-lang="en">AI Agent-powered productivity hub featuring LLM Wiki management, automated WeChat publishing, and deep industry research workflows.</span>
+                    </p>
+                    <div class="project-card-tags" style="opacity:0.6">
+                        <span>DevOps</span>
+                        <span>Wiki</span>
+                    </div>
+                    <div class="project-card-footer" style="border-top:none;padding-top:0;margin-top:0">
+                        <p class="project-card-desc" style="margin:0;font-size:0.8rem;opacity:0.7">
+                            <span data-lang="zh">包含 Hermes Agent（本站构建工具）、WeChat Publisher、Research Agent 等模块。</span>
+                            <span data-lang="en">Includes Hermes Agent (this site's builder), WeChat Publisher, Research Agent, and more.</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 02 Experience -->
+        <section class="section">
+            <h3 class="section-title serif-title text-carbon">
+                <span class="section-num">02 ·</span>
+                <span data-lang="zh">职业履历</span>
+                <span data-lang="en">Professional Experience</span>
+            </h3>
+
+            <div class="timeline">
+
+                <!-- Independent Developer -->
+                <div class="timeline-item">
+                    <div class="timeline-icon-col">
+                        <div class="timeline-icon kami-card">
+                            <img src="images/ai-explorer-logo.svg" alt="AI">
+                        </div>
+                        <div class="timeline-line"></div>
+                    </div>
+                    <div class="timeline-content">
+                        <div class="timeline-meta">
+                            <span class="timeline-date">2025.11 — <span data-lang="zh">至今</span><span data-lang="en">Present</span></span>
+                            <h4 class="timeline-role serif-title">
+                                <span data-lang="zh">独立开发者</span>
+                                <span data-lang="en">Independent Developer</span>
+                            </h4>
+                        </div>
+                        <p class="timeline-desc">
+                            <span data-lang="zh">利用 Vibe Coding 范式（Claude Code / Gemini CLI），将 15 年制造经验转化为 AI 生产力。自主研发企业级 EMS、智能 PDCA 工作流、交互式 VSM 等多款 Agent Skill，探索大模型在工业垂直领域的深度落地。</span>
+                            <span data-lang="en">Leveraging Vibe Coding (Claude Code / Gemini CLI), I translate 15 years of manufacturing expertise into AI products. Built enterprise EMS, intelligent PDCA workflows, and interactive VSM tools to explore deep LLM applications in industrial domains.</span>
+                        </p>
+                        <details>
+                            <summary class="details-toggle">
+                                <span data-lang="zh">[ 展开详情 ]</span>
+                                <span data-lang="en">[ View Details ]</span>
+                            </summary>
+                            <ul class="details-list">
+                                <li>
+                                    <span data-lang="zh"><strong>EMS-Claude</strong>: Go+Vue3 全栈开发，集成 LLM+RAG 智能维修诊断，支持多租户与飞书机器人。</span>
+                                    <span data-lang="en"><strong>EMS-Claude</strong>: Full-stack Go+Vue3 with LLM+RAG intelligent diagnostics, multi-tenant and Lark integration.</span>
+                                </li>
+                                <li>
+                                    <span data-lang="zh"><strong>PDCA-with-AI</strong>: 制造场景 PDCA 工作流 Agent Skill，支持 SMART 校验与飞书 Bitable 自动同步。</span>
+                                    <span data-lang="en"><strong>PDCA-with-AI</strong>: Manufacturing PDCA Agent Skill with SMART validation and Bitable sync.</span>
+                                </li>
+                                <li>
+                                    <span data-lang="zh"><strong>VSM Skill</strong>: 交互式价值流图 Agent Skill，内置 Lean 分析引擎，自动渲染 SVG 流程图。</span>
+                                    <span data-lang="en"><strong>VSM Skill</strong>: Interactive Value Stream Mapping Agent with Lean engine and SVG rendering.</span>
+                                </li>
+                                <li>
+                                    <span data-lang="zh"><strong>Hermes Agent</strong>: 基于 Agent 的个人效率中枢，实现 Wiki 知识库管理与自动化办公流。</span>
+                                    <span data-lang="en"><strong>Hermes Agent</strong>: Agent-based productivity hub with Wiki management and automated workflows.</span>
+                                </li>
+                            </ul>
+                        </details>
+                    </div>
+                </div>
+
+                <!-- Sany -->
+                <div class="timeline-item">
+                    <div class="timeline-icon-col">
+                        <div class="timeline-icon kami-card">
+                            <img src="images/sany_logo.png" alt="Sany">
+                        </div>
+                        <div class="timeline-line"></div>
+                    </div>
+                    <div class="timeline-content">
+                        <div class="timeline-meta">
+                            <span class="timeline-date">2021.06 — 2025.11</span>
+                            <h4 class="timeline-role serif-title">
+                                <a href="https://www.sanygroup.com/" target="_blank" class="timeline-role" style="text-decoration:none">
+                                    <span data-lang="zh">三一重工</span>
+                                    <span data-lang="en">Sany Group</span>
+                                </a>
+                                <span class="timeline-role-sub">
+                                    <span data-lang="zh">数字化设备经理 · EAM 项目负责人</span>
+                                    <span data-lang="en">Digital Equipment Manager · EAM Project Lead</span>
+                                </span>
+                            </h4>
+                        </div>
+                        <p class="timeline-desc">
+                            <span data-lang="zh">主导集团设备管理体系的数字化重构。统筹 <strong>9 大事业部、40+ 工厂</strong>的 EAM 系统推广，实现设备业务 100% 在线化；率先在制造领域落地 LLM+RAG 维修 AI 助手，<strong>方案采纳率达 63%</strong>；制定集团设备管理制度与考核规则，设备付现费用率<strong>每年降低约 8%</strong>。</span>
+                            <span data-lang="en">Led the digital transformation of Sany Group's equipment management. Orchestrated EAM rollout across <strong>9 BUs, 40+ factories</strong> for 100% online coverage. Pioneered LLM+RAG maintenance AI assistant with <strong>63% adoption rate</strong>. Established group-wide equipment management standards, reducing annual cash expense rate by <strong>~8%</strong>.</span>
+                        </p>
+                        <details>
+                            <summary class="details-toggle">
+                                <span data-lang="zh">[ 展开详情 ]</span>
+                                <span data-lang="en">[ View Details ]</span>
+                            </summary>
+                            <ul class="details-list">
+                                <li>
+                                    <span data-lang="zh"><strong>EAM 系统建设</strong>: 重构保养、维修、台账、备件等核心模块，打通 SAP 折旧归集与 MES OEE 计算，实现数据闭环。</span>
+                                    <span data-lang="en"><strong>EAM Platform</strong>: Rebuilt core modules, integrated SAP depreciation and MES OEE for data closed-loop.</span>
+                                </li>
+                                <li>
+                                    <span data-lang="zh"><strong>AI 维修助手</strong>: 基于 LLM+RAG 构建故障知识库，智能推荐维修方案，采纳率 63%，降低对高资历工人的依赖。</span>
+                                    <span data-lang="en"><strong>AI Maintenance</strong>: Built LLM+RAG knowledge base for fault diagnosis, 63% adoption rate.</span>
+                                </li>
+                                <li>
+                                    <span data-lang="zh"><strong>闲置资产调拨</strong>: 利用 Dify 构建多维度评价模型，促进 AGV/机器人等高价值资产流转，2025 年实现约 2000 万元闲置设备调拨，压降 CAPEX。</span>
+                                    <span data-lang="en"><strong>Asset Matching</strong>: Dify-powered evaluation model for smart idle asset redeployment, achieving ~¥20M in 2025.</span>
+                                </li>
+                                <li>
+                                    <span data-lang="zh"><strong>数据治理</strong>: 清洗台账数据 30w+ 条，数据清洁度提升 40%+。</span>
+                                    <span data-lang="en"><strong>Data Governance</strong>: Cleaned 300K+ equipment records, improved data quality by 40%+.</span>
+                                </li>
+                                <li>
+                                    <span data-lang="zh"><strong>标准化体系</strong>: 发布集团首版设备管理岗位任职资格标准，统筹全集团技工等级认证；主导设备管理"四化"项目（数字化、标准化、精益化、智能化），梳理形成 <strong>12 个核心流程</strong>、<strong>60 余条管理规则</strong>，成为全集团统一执行标准。</span>
+                                    <span data-lang="en"><strong>Standardization</strong>: Published first job qualification standards and led group-wide worker certifications. Drove "Four Modernizations" initiative: <strong>12 core processes</strong>, <strong>60+ management rules</strong> as group-wide standards.</span>
+                                </li>
+                            </ul>
+                        </details>
+                    </div>
+                </div>
+
+                <!-- Intellimicro -->
+                <div class="timeline-item">
+                    <div class="timeline-icon-col">
+                        <div class="timeline-icon kami-card">
+                            <img src="images/intellimicro_logo.png" alt="Intellimicro">
+                        </div>
+                        <div class="timeline-line"></div>
+                    </div>
+                    <div class="timeline-content">
+                        <div class="timeline-meta">
+                            <span class="timeline-date">2018 — 2021</span>
+                            <h4 class="timeline-role serif-title">
+                                <a href="https://intellimicro.cn/" target="_blank" class="timeline-role" style="text-decoration:none">
+                                    <span data-lang="zh">微智医疗</span>
+                                    <span data-lang="en">Intellimicro Medical</span>
+                                </a>
+                                <span class="timeline-role-sub">
+                                    <span data-lang="zh">GMP 厂务工程师</span>
+                                    <span data-lang="en">GMP Facility Engineer</span>
+                                </span>
+                            </h4>
+                        </div>
+                        <p class="timeline-desc">
+                            <span data-lang="zh">负责高端医疗器械生产环境的从 0 到 1 建设。主导 GMP 洁净厂房交付、核心光刻设备的 <strong>IQ/OQ/PQ 三级验证</strong>，以及 O2/Ar/N2/SF6 等特种气体系统规划，确保 100% 审计就绪。</span>
+                            <span data-lang="en">Led the 0-to-1 construction of high-end medical device manufacturing environments. Managed GMP cleanroom delivery, <strong>IQ/OQ/PQ validation</strong> for precision lithography tools, and specialty gas system planning, ensuring 100% audit readiness.</span>
+                        </p>
+                        <details>
+                            <summary class="details-toggle">
+                                <span data-lang="zh">[ 展开详情 ]</span>
+                                <span data-lang="en">[ View Details ]</span>
+                            </summary>
+                            <ul class="details-list">
+                                <li>
+                                    <span data-lang="zh"><strong>GMP 厂房交付</strong>: 主导厂房布局、搬入定位及安装调试，确保人/物动线符合 GMP 标准。</span>
+                                    <span data-lang="en"><strong>GMP Delivery</strong>: Led layout, relocation, and commissioning to GMP standards.</span>
+                                </li>
+                                <li>
+                                    <span data-lang="zh"><strong>3Q 设备验证</strong>: 独立完成 Suss 光刻机、MicroWriter ML3 等高精度设备的安装/运行/性能确认。</span>
+                                    <span data-lang="en"><strong>3Q Validation</strong>: Completed IQ/OQ/PQ for Suss lithography and MicroWriter ML3 tools.</span>
+                                </li>
+                                <li>
+                                    <span data-lang="zh"><strong>特气系统</strong>: 规划 O2/Ar/N2/SF6 管道布局，建立定检与安全管理制度，满足半导体/医疗级洁净度。</span>
+                                    <span data-lang="en"><strong>Gas Systems</strong>: Planned O2/Ar/N2/SF6 pipeline layouts with inspection and safety protocols.</span>
+                                </li>
+                                <li>
+                                    <span data-lang="zh"><strong>维保体系</strong>: 制订 PM 预防性维护计划，规划委外维保与备件库存策略，100% 审计就绪。</span>
+                                    <span data-lang="en"><strong>Maintenance</strong>: Established PM schedules, vendor management, and spare parts strategy.</span>
+                                </li>
+                            </ul>
+                        </details>
+                    </div>
+                </div>
+
+                <!-- Tianma -->
+                <div class="timeline-item">
+                    <div class="timeline-icon-col">
+                        <div class="timeline-icon kami-card">
+                            <img src="images/tianma_logo.png" alt="Tianma">
+                        </div>
+                        <div class="timeline-line"></div>
+                    </div>
+                    <div class="timeline-content">
+                        <div class="timeline-meta">
+                            <span class="timeline-date">2013 — 2018</span>
+                            <h4 class="timeline-role serif-title">
+                                <a href="https://www.tianma.cn/" target="_blank" class="timeline-role" style="text-decoration:none">
+                                    <span data-lang="zh">天马微电子</span>
+                                    <span data-lang="en">Tianma Microelectronics</span>
+                                </a>
+                                <span class="timeline-role-sub">
+                                    <span data-lang="zh">涂布工艺资深工程师</span>
+                                    <span data-lang="en">Senior Process Engineer</span>
+                                </span>
+                            </h4>
+                        </div>
+                        <p class="timeline-desc">
+                            <span data-lang="zh">专注于半导体显示制程的良率攻关与工艺稳定性提升。主导光刻关键尺寸（CD）与膜厚的 CPK 深度管控（<strong>1.33+，高端客户产品至 1.67</strong>），通过 DOE 实验解决 OLED 信赖性等重大异常；主导高感度光刻胶等新材料评估，实现显著降本。</span>
+                            <span data-lang="en">Focused on yield improvement in semiconductor display manufacturing. Managed deep CPK control (<strong>1.33+, up to 1.67 for premium clients</strong>) for critical dimensions, resolved major OLED reliability issues via DOE, and drove significant cost reduction through new material evaluation.</span>
+                        </p>
+                        <details>
+                            <summary class="details-toggle">
+                                <span data-lang="zh">[ 展开详情 ]</span>
+                                <span data-lang="en">[ View Details ]</span>
+                            </summary>
+                            <ul class="details-list">
+                                <li>
+                                    <span data-lang="zh"><strong>CPK 过程控制</strong>: 利用 Minitab 监控膜厚与 CD，将关键指标 CPK 从不达标提升至 1.33+。</span>
+                                    <span data-lang="en"><strong>CPK Control</strong>: Used Minitab to monitor thickness/CD, improving CPK from failing to 1.33+.</span>
+                                </li>
+                                <li>
+                                    <span data-lang="zh"><strong>重大异常攻关</strong>: 运用 8D/DOE 方法解决 ESD 异常、Lens Mura、OLED 信赖性等行业级工艺问题。</span>
+                                    <span data-lang="en"><strong>Troubleshooting</strong>: Resolved ESD, Lens Mura, and OLED reliability issues using 8D/DOE.</span>
+                                </li>
+                                <li>
+                                    <span data-lang="zh"><strong>材料评估降本</strong>: 主导高感度光刻胶、二供显影液评估，缩短 Takt Time 并降低 BOM 成本。</span>
+                                    <span data-lang="en"><strong>Cost Reduction</strong>: Evaluated high-sensitivity photoresist and alternative developers to cut BOM costs.</span>
+                                </li>
+                                <li>
+                                    <span data-lang="zh"><strong>客户响应</strong>: 召集厂商优化材料特性，突破设备极限满足重点客户高精度需求。</span>
+                                    <span data-lang="en"><strong>Customer Response</strong>: Coordinated with vendors to break equipment limits for key customer specs.</span>
+                                </li>
+                            </ul>
+                        </details>
+                    </div>
+                </div>
+
+                <!-- CSOT -->
+                <div class="timeline-item">
+                    <div class="timeline-icon-col">
+                        <div class="timeline-icon kami-card">
+                            <img src="images/csot_logo.png" alt="CSOT">
+                        </div>
+                        <div class="timeline-line"></div>
+                    </div>
+                    <div class="timeline-content">
+                        <div class="timeline-meta">
+                            <span class="timeline-date">2010 — 2013</span>
+                            <h4 class="timeline-role serif-title">
+                                <a href="https://www.tclcsot.com/" target="_blank" class="timeline-role" style="text-decoration:none">
+                                    <span data-lang="zh">华星光电 (CSOT)</span>
+                                    <span data-lang="en">CSOT</span>
+                                </a>
+                                <span class="timeline-role-sub">
+                                    <span data-lang="zh">设备 & 良率工程师</span>
+                                    <span data-lang="en">Equipment & Yield Engineer</span>
+                                </span>
+                            </h4>
+                        </div>
+                        <p class="timeline-desc">
+                            <span data-lang="zh">参与国内顶级面板产线从 0 到 1 的崛起。负责首条 Photo Inline 产线从组装到 30K 量产爬坡，将 Uptime 从 <strong>75% 提升至 95%</strong>，Takt Time 从 65s 压缩至 53s。</span>
+                            <span data-lang="en">Participated in the 0-to-1 rise of top-tier domestic panel production. Led Inline line from assembly to 30K ramp-up, improving Uptime from <strong>75% to 95%</strong> and compressing Takt Time from 65s to 53s.</span>
+                        </p>
+                        <details>
+                            <summary class="details-toggle">
+                                <span data-lang="zh">[ 展开详情 ]</span>
+                                <span data-lang="en">[ View Details ]</span>
+                            </summary>
+                            <ul class="details-list">
+                                <li>
+                                    <span data-lang="zh"><strong>产线建设</strong>: 部门首条 Inline 设备从 0 到 30K 全程量产负责人，含设备规格制定、日本培训及验收。</span>
+                                    <span data-lang="en"><strong>Line Build</strong>: Led first Inline equipment 0-to-30K ramp-up, including specs, Japan training, and acceptance.</span>
+                                </li>
+                                <li>
+                                    <span data-lang="zh"><strong>设备效率</strong>: Uptime 75% → 95%，Takt Time 65s → 53s，达行业领先水平。</span>
+                                    <span data-lang="en"><strong>Efficiency</strong>: Uptime 75% → 95%, Takt Time 65s → 53s, industry-leading performance.</span>
+                                </li>
+                                <li>
+                                    <span data-lang="zh"><strong>良率提升</strong>: Poor Coating 发生率从 15 次/月降至 1 次/月，Rework 率从 2817 PCS/月降至 135 PCS/月。</span>
+                                    <span data-lang="en"><strong>Yield</strong>: Poor Coating from 15/month to 1/month, Rework from 2817 PCS/month to 135 PCS/month.</span>
+                                </li>
+                                <li>
+                                    <span data-lang="zh"><strong>标准化</strong>: 负责部门 ISO 文件撰写与审核，建立首套标准化体系，担任 TPM 对外窗口及培训讲师。</span>
+                                    <span data-lang="en"><strong>Standardization</strong>: Authored ISO documentation, built first standardization framework, served as TPM liaison.</span>
+                                </li>
+                            </ul>
+                        </details>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- 03 Education & Certifications -->
+        <section class="section">
+            <h3 class="section-title serif-title text-carbon">
+                <span class="section-num">03 ·</span>
+                <span data-lang="zh">教育背景与资质</span>
+                <span data-lang="en">Education & Certifications</span>
+            </h3>
+            <div class="space-y-10">
+                <div>
+                    <p class="serif-title" style="font-size:1.125rem;color:var(--ink);">
+                        <span data-lang="zh">北京交通大学</span>
+                        <span data-lang="en">Beijing Jiaotong University</span>
+                    </p>
+                    <p style="font-size:0.875rem;color:var(--warmgray);margin-top:0.25rem;">
+                        <span data-lang="zh">材料化学 · 本科（211 / 双一流）· 2006 — 2010</span>
+                        <span data-lang="en">Materials Chemistry · B.Sc. (Project 211 / Double First-Class) · 2006 — 2010</span>
+                    </p>
+                </div>
+                <div>
+                    <p class="serif-title" style="font-size:1.125rem;color:var(--ink);">
+                        <span data-lang="zh">PMP 项目管理专业人士</span>
+                        <span data-lang="en">PMP — Project Management Professional</span>
+                    </p>
+                    <p style="font-size:0.875rem;color:var(--warmgray);margin-top:0.25rem;">
+                        <span data-lang="zh">PMI 认证 · 2024 年 7 月（3A 优异成绩）</span>
+                        <span data-lang="en">PMI Certified · Jul 2024 (3A Achievement)</span>
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 04 Writing -->
+        <section class="section">
+            <h3 class="section-title serif-title text-carbon">
+                <span class="section-num">04 ·</span>
+                <span data-lang="zh">精选文章</span>
+                <span data-lang="en">Selected Writing</span>
+            </h3>
+            <div class="space-y-8">
+                <ul class="writing-list">
+                    <li>
+                        <span data-lang="zh"><a href="#">AI维修助手：在制造业落地的真实数据</a></span>
+                        <span data-lang="en"><a href="#">AI Maintenance Assistant: Real Data from Manufacturing Deployment</a></span>
+                    </li>
+                    <li>
+                        <span data-lang="zh"><a href="#">AI落地最大坑：应采尽采</a></span>
+                        <span data-lang="en"><a href="#">The Biggest Pitfall in AI Deployment: Collect Everything</a></span>
+                    </li>
+                    <li>
+                        <span data-lang="zh"><a href="#">MES反思：从FPD到工程机械的落差</a></span>
+                        <span data-lang="en"><a href="#">MES Reflections: The Gap from FPD to Construction Machinery</a></span>
+                    </li>
+                    <li>
+                        <span data-lang="zh"><a href="#">EMS开源系统：Vibe Coding的制造实践</a></span>
+                        <span data-lang="en"><a href="#">Open-Source EMS: Vibe Coding Meets Manufacturing Practice</a></span>
+                    </li>
+                </ul>
+                <p class="writing-note">
+                    <span data-lang="zh">更多文章见公众号「制造人的AI手记」</span>
+                    <span data-lang="en">More articles on WeChat Official Account「制造人的AI手记」</span>
+                </p>
+            </div>
+        </section>
+
+        <!-- 04 Manifesto -->
+        <section class="section manifesto-section">
+            <h3 class="section-title serif-title text-carbon">
+                <span class="section-num">05 ·</span>
+                <span data-lang="zh">个人宣言</span>
+                <span data-lang="en">Manifesto</span>
+            </h3>
+            <p class="manifesto-text text-carbon serif-title italic">
+                <span data-lang="zh">
+                    "我致力于连接'硬科技'制造业与'软科技'AI 领域。真正的数字化转型不源于写代码，而源于对业务的深刻理解与规则定义。"
+                </span>
+                <span data-lang="en">
+                    "I believe in bridging the gap between 'Hard Tech' manufacturing and 'Soft Tech' AI. True digital transformation comes from understanding the floor and defining the rules."
+                </span>
+            </p>
+            <div class="manifesto-footer">
+                <span data-lang="zh">由 Warm Restraint 风格设计 · 基于 Vibe Coding 构建</span>
+                <span data-lang="en">Designed with Warm Restraint · Built with Vibe Coding</span>
+            </div>
+        </section>
+
+        <!-- Kami Attribution -->
+        <footer class="page-footer">
+            Design inspired by <a href="https://github.com/nicepkg/kami" target="_blank">Kami Design System</a> by <a href="https://twitter.com/oom_us" target="_blank">@oom_us</a>
+        </footer>
+    </main>
+</body>
+</html>
