@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 — 迷路了</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Noto+Serif+SC:wght@400;700&display=swap');
+
+        :root {
+            --bg: #0a0a0f;
+            --fg: #e0e0e8;
+            --accent: #00ffc8;
+            --accent2: #ff6b6b;
+            --muted: #4a4a5a;
+            --card: rgba(255,255,255,0.03);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background: var(--bg);
+            color: var(--fg);
+            font-family: 'Noto Serif SC', serif;
+            min-height: 100vh;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: crosshair;
+        }
+
+        /* ── Starfield ── */
+        #stars {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+        }
+
+        /* ── Main Container ── */
+        .container {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            max-width: 640px;
+            padding: 2rem;
+        }
+
+        /* ── Glitch 404 ── */
+        .glitch {
+            font-family: 'Space Mono', monospace;
+            font-size: clamp(5rem, 15vw, 10rem);
+            font-weight: 700;
+            color: var(--fg);
+            position: relative;
+            display: inline-block;
+            animation: float 6s ease-in-out infinite;
+            user-select: none;
+        }
+
+        .glitch::before,
+        .glitch::after {
+            content: '404';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.8;
+        }
+
+        .glitch::before {
+            color: var(--accent);
+            animation: glitch-1 3s infinite linear alternate-reverse;
+            clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);
+        }
+
+        .glitch::after {
+            color: var(--accent2);
+            animation: glitch-2 2s infinite linear alternate-reverse;
+            clip-path: polygon(0 55%, 100% 55%, 100% 100%, 0 100%);
+        }
+
+        @keyframes glitch-1 {
+            0%, 90% { transform: translate(0); }
+            91% { transform: translate(-3px, 1px); }
+            93% { transform: translate(2px, -1px); }
+            95% { transform: translate(-1px, 2px); }
+            97% { transform: translate(3px, 0); }
+            100% { transform: translate(0); }
+        }
+
+        @keyframes glitch-2 {
+            0%, 88% { transform: translate(0); }
+            89% { transform: translate(2px, -2px); }
+            92% { transform: translate(-3px, 1px); }
+            94% { transform: translate(1px, 2px); }
+            96% { transform: translate(-2px, -1px); }
+            100% { transform: translate(0); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-12px); }
+        }
+
+        /* ── Subtitle ── */
+        .subtitle {
+            margin-top: 1.5rem;
+            font-size: 1.15rem;
+            color: var(--muted);
+            line-height: 1.8;
+            letter-spacing: 0.05em;
+        }
+
+        .subtitle .highlight {
+            color: var(--accent);
+            font-family: 'Space Mono', monospace;
+            font-size: 0.9em;
+        }
+
+        /* ── Typewriter ── */
+        .terminal {
+            margin-top: 2.5rem;
+            background: var(--card);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 12px;
+            padding: 1.2rem 1.5rem;
+            text-align: left;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.82rem;
+            color: var(--accent);
+            line-height: 1.8;
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .terminal::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+            animation: scan 3s linear infinite;
+        }
+
+        @keyframes scan {
+            0% { opacity: 0.3; }
+            50% { opacity: 1; }
+            100% { opacity: 0.3; }
+        }
+
+        .terminal .line { opacity: 0; animation: fade-in 0.4s forwards; }
+        .terminal .line:nth-child(2) { animation-delay: 1.2s; }
+        .terminal .line:nth-child(3) { animation-delay: 2.4s; }
+        .terminal .line:nth-child(4) { animation-delay: 3.6s; }
+        .terminal .prompt { color: var(--muted); }
+        .terminal .cmd { color: var(--fg); }
+        .terminal .cursor {
+            display: inline-block;
+            width: 8px;
+            height: 1em;
+            background: var(--accent);
+            vertical-align: text-bottom;
+            animation: blink 1s step-end infinite;
+            margin-left: 2px;
+        }
+
+        @keyframes fade-in { to { opacity: 1; } }
+        @keyframes blink { 50% { opacity: 0; } }
+
+        /* ── Compass / Navigation ── */
+        .nav-links {
+            margin-top: 2.5rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            justify-content: center;
+            opacity: 0;
+            animation: fade-in 0.6s 4.5s forwards;
+        }
+
+        .nav-links a {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.55rem 1.2rem;
+            border: 1px solid var(--muted);
+            border-radius: 100px;
+            color: var(--fg);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-family: 'Space Mono', monospace;
+            transition: all 0.3s ease;
+            background: transparent;
+        }
+
+        .nav-links a:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            box-shadow: 0 0 20px rgba(0,255,200,0.15);
+            transform: translateY(-2px);
+        }
+
+        .nav-links a .arrow { transition: transform 0.3s; }
+        .nav-links a:hover .arrow { transform: translateX(3px); }
+
+        /* ── Easter Egg: Konami Code ── */
+        .secret {
+            position: fixed;
+            bottom: 1.5rem;
+            right: 1.5rem;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--muted);
+            opacity: 0.3;
+            transition: opacity 0.3s;
+            user-select: none;
+        }
+        .secret:hover { opacity: 0.7; }
+
+        /* ── Hidden message ── */
+        .hidden-msg {
+            position: fixed;
+            inset: 0;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--bg);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 1s ease;
+        }
+        .hidden-msg.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .hidden-msg .inner {
+            font-size: 1.3rem;
+            color: var(--accent);
+            font-family: 'Noto Serif SC', serif;
+            text-align: center;
+            line-height: 2;
+            max-width: 500px;
+        }
+        .hidden-msg .inner .big {
+            font-size: 2.5rem;
+            display: block;
+            margin-bottom: 1rem;
+        }
+
+        /* ── Mouse follower ── */
+        .follower {
+            position: fixed;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+            background: radial-gradient(circle, rgba(0,255,200,0.06) 0%, transparent 70%);
+            transform: translate(-50%, -50%);
+            transition: left 0.6s ease-out, top 0.6s ease-out;
+        }
+
+        /* ── Responsive ── */
+        @media (max-width: 480px) {
+            .glitch { font-size: 4.5rem; }
+            .subtitle { font-size: 1rem; }
+            .nav-links { flex-direction: column; align-items: center; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="stars"></canvas>
+    <div class="follower" id="follower"></div>
+
+    <div class="container">
+        <div class="glitch" aria-label="404">404</div>
+
+        <p class="subtitle">
+            这里的页面好像在时空裂缝中走丢了<br>
+            也许它去了另一个维度度假 🌌
+        </p>
+
+        <div class="terminal" aria-label="terminal">
+            <div class="line"><span class="prompt">$</span> <span class="cmd">scanning known dimensions...</span></div>
+            <div class="line"><span class="prompt">$</span> <span class="cmd">page not found in any timeline</span></div>
+            <div class="line"><span class="prompt">$</span> <span class="cmd">recommending alternative routes →</span></div>
+            <div class="line"><span class="prompt">$</span> <span class="cursor"></span></div>
+        </div>
+
+        <nav class="nav-links">
+            <a href="https://github.com/feng-h">GitHub <span class="arrow">→</span></a>
+            <a href="/EMS-Claude.html">EMS × Claude <span class="arrow">→</span></a>
+            <a href="/Hermes-Workspace.html">Hermes <span class="arrow">→</span></a>
+            <a href="/PDCA-Skill.html">PDCA <span class="arrow">→</span></a>
+            <a href="/VSM-skill.html">VSM <span class="arrow">→</span></a>
+        </nav>
+    </div>
+
+    <div class="secret">↑↑↓↓←→←→BA</div>
+
+    <div class="hidden-msg" id="secret-msg">
+        <div class="inner">
+            <span class="big">🎮 你发现了彩蛋！</span>
+            既然你找到了这里<br>
+            说明你是一个有好奇心的人<br>
+            这个世界需要更多像你这样的人
+        </div>
+    </div>
+
+    <script>
+        // ── Starfield ──
+        const canvas = document.getElementById('stars');
+        const ctx = canvas.getContext('2d');
+        let stars = [];
+        const STAR_COUNT = 200;
+
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resize();
+        window.addEventListener('resize', resize);
+
+        for (let i = 0; i < STAR_COUNT; i++) {
+            stars.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                r: Math.random() * 1.5 + 0.3,
+                dx: (Math.random() - 0.5) * 0.15,
+                dy: (Math.random() - 0.5) * 0.15,
+                alpha: Math.random() * 0.8 + 0.2,
+                pulse: Math.random() * Math.PI * 2
+            });
+        }
+
+        function drawStars() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            const t = Date.now() * 0.001;
+            stars.forEach(s => {
+                s.x += s.dx;
+                s.y += s.dy;
+                if (s.x < 0) s.x = canvas.width;
+                if (s.x > canvas.width) s.x = 0;
+                if (s.y < 0) s.y = canvas.height;
+                if (s.y > canvas.height) s.y = 0;
+                const a = s.alpha * (0.6 + 0.4 * Math.sin(t + s.pulse));
+                ctx.beginPath();
+                ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(200, 220, 255, ${a})`;
+                ctx.fill();
+            });
+            requestAnimationFrame(drawStars);
+        }
+        drawStars();
+
+        // ── Mouse Follower ──
+        const follower = document.getElementById('follower');
+        document.addEventListener('mousemove', e => {
+            follower.style.left = e.clientX + 'px';
+            follower.style.top = e.clientY + 'px';
+        });
+
+        // ── Konami Code Easter Egg ──
+        const konami = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','KeyB','KeyA'];
+        let kIndex = 0;
+        document.addEventListener('keydown', e => {
+            if (e.code === konami[kIndex]) {
+                kIndex++;
+                if (kIndex === konami.length) {
+                    document.getElementById('secret-msg').classList.add('show');
+                    kIndex = 0;
+                }
+            } else {
+                kIndex = 0;
+            }
+        });
+    </script>
+</body>
+</html>
