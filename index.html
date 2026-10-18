@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -72,6 +72,8 @@
         .lang-switcher button { background: none; border: none; cursor: pointer; transition: color 0.15s ease; padding: 0; font: inherit; }
         .lang-switcher button:hover { color: var(--ink); }
         .lang-switcher button:focus { outline: none; }
+        body.lang-zh .lang-btn-zh,
+        body.lang-en .lang-btn-en { color: var(--ink); font-weight: 600; border-bottom: 1px solid var(--ink); }
 
         /* ── Header ── */
         .header { display: flex; flex-direction: column; gap: 2rem; margin-bottom: 6rem; }
@@ -181,21 +183,30 @@
         .space-y-10 > * + * { margin-top: 2.5rem; }
     </style>
 </head>
-<body class="lang-zh">
+<body class="lang-en">
     <script>
         function setLang(lang) {
             document.body.classList.remove('lang-zh', 'lang-en');
             document.body.classList.add('lang-' + lang);
             document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
+            try { localStorage.setItem('site-lang', lang); } catch (e) {}
         }
+        (function() {
+            var saved = 'en';
+            try {
+                var urlParams = new URLSearchParams(window.location.search);
+                saved = urlParams.get('lang') || localStorage.getItem('site-lang') || 'en';
+            } catch (e) {}
+            setLang(saved);
+        })();
     </script>
 
     <main class="container">
         <!-- Language Switcher -->
         <div class="lang-switcher">
-            <button onclick="setLang('zh')">ZH</button>
+            <button class="lang-btn-en" onclick="setLang('en')">EN</button>
             <span style="opacity:0.2">/</span>
-            <button onclick="setLang('en')">EN</button>
+            <button class="lang-btn-zh" onclick="setLang('zh')">ZH</button>
         </div>
 
         <!-- Header -->
@@ -219,8 +230,8 @@
                 <div class="header-links">
                     <div class="header-links-row">
                         <a href="https://github.com/Feng-H" target="_blank" class="header-link">github.com/Feng-H</a>
-                        <a href="mailto:huangfeng@duck.com" class="header-link">
-                            huangfeng@duck.com
+                        <a href="mailto:huangfengjob@gmail.com" class="header-link">
+                            huangfengjob@gmail.com
                             <span style="opacity:0.5;text-transform:lowercase">
                                 <span data-lang="zh">(Human)</span>
                                 <span data-lang="en">(Human)</span>
