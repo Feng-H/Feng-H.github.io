@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 如何懂我：个人认知档案机制 — 透明度文档</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='12' fill='%231B365D'/><text x='50' y='68' font-family='serif' font-size='55' font-weight='bold' fill='white' text-anchor='middle'>H</text></svg>">
+    <style>
+        @font-face {
+            font-family: 'TsangerJinKai02';
+            src: url('https://lib.baomitu.com/fonts/tsangerjinkai/tsangerjinkai.woff2') format('woff2');
+            font-display: swap;
+        }
+        :root {
+            --canvas: #F5F4ED;
+            --carbon: #2D3748;
+            --ink: #1B365D;
+            --warmgray: #718096;
+            --line: #D9D6C8;
+            --ok: #2F855A;
+            --warn: #C05621;
+            --ff-serif: "Charter", "TsangerJinKai02", "Songti SC", serif;
+            --ff-sans: "Inter", "PingFang SC", sans-serif;
+            --ff-mono: "JetBrains Mono", monospace;
+        }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { font-size: 16px; }
+        body {
+            background: var(--canvas);
+            color: var(--carbon);
+            font-family: var(--ff-serif);
+            line-height: 1.65;
+        }
+        .mono { font-family: var(--ff-mono); }
+        nav {
+            position: fixed; top: 0; width: 100%; z-index: 50;
+            background: rgba(245,244,237,.92); backdrop-filter: blur(8px);
+            border-bottom: 1px solid var(--line);
+            display: flex; justify-content: space-between; align-items: center;
+            padding: .8rem 1.5rem;
+        }
+        nav a { text-decoration: none; color: var(--ink); font-family: var(--ff-sans); font-size: .82rem; letter-spacing: .06em; }
+        nav .links { display: flex; gap: 1.2rem; }
+        nav .links a { color: var(--warmgray); }
+        nav .links a:hover { color: var(--ink); }
+        main { max-width: 780px; margin: 0 auto; padding: 7rem 1.4rem 5rem; }
+        header.hero { margin-bottom: 3.5rem; }
+        .kicker {
+            font-family: var(--ff-sans); font-size: .72rem; letter-spacing: .22em;
+            text-transform: uppercase; color: var(--warmgray); margin-bottom: 1rem;
+        }
+        h1 { font-size: 2rem; font-weight: 500; color: var(--ink); line-height: 1.3; margin-bottom: 1rem; }
+        .hero p.lead { font-size: 1.05rem; color: var(--carbon); margin-bottom: 1.2rem; }
+        .status-pill {
+            display: inline-block; font-family: var(--ff-mono); font-size: .72rem;
+            border: 1px solid var(--warn); color: var(--warn); border-radius: 999px;
+            padding: .2rem .8rem; letter-spacing: .05em;
+        }
+        h2 {
+            font-size: 1.25rem; font-weight: 500; color: var(--ink);
+            margin: 3.2rem 0 1.1rem; padding-top: .4rem;
+            border-top: 1px solid var(--line);
+        }
+        h2 .num { font-family: var(--ff-mono); font-size: .85rem; color: var(--warmgray); margin-right: .6rem; }
+        h3 { font-size: 1rem; font-weight: 600; color: var(--ink); margin: 1.6rem 0 .6rem; }
+        p { margin-bottom: .9rem; }
+        ul, ol { margin: .4rem 0 1rem 1.3rem; }
+        li { margin-bottom: .45rem; }
+        strong { color: var(--ink); }
+        code {
+            font-family: var(--ff-mono); font-size: .82em;
+            background: rgba(27,54,93,.07); padding: .1em .4em; border-radius: 4px;
+        }
+        .callout {
+            border-left: 3px solid var(--ink); background: rgba(27,54,93,.045);
+            padding: .9rem 1.1rem; margin: 1.2rem 0; font-size: .95rem;
+        }
+        .callout.warn { border-left-color: var(--warn); background: rgba(192,86,33,.05); }
+        table { width: 100%; border-collapse: collapse; margin: 1.1rem 0; font-size: .92rem; }
+        th, td { border: 1px solid var(--line); padding: .55rem .7rem; text-align: left; vertical-align: top; }
+        th { font-family: var(--ff-sans); font-size: .78rem; letter-spacing: .04em; color: var(--ink); background: rgba(27,54,93,.04); }
+        td .tag { font-family: var(--ff-mono); font-size: .72rem; }
+        /* 三层架构图 */
+        .layers { margin: 1.6rem 0; }
+        .layer {
+            border: 1px solid var(--line); border-radius: 8px;
+            padding: 1rem 1.2rem; margin-bottom: .8rem; background: rgba(255,255,255,.55);
+        }
+        .layer .head { display: flex; align-items: baseline; gap: .7rem; margin-bottom: .4rem; }
+        .layer .badge {
+            font-family: var(--ff-mono); font-size: .72rem; color: #fff;
+            background: var(--ink); border-radius: 4px; padding: .15rem .55rem; letter-spacing: .05em;
+        }
+        .layer.l2 .badge { background: var(--ok); }
+        .layer.l3 .badge { background: var(--warmgray); }
+        .layer .name { font-weight: 600; color: var(--ink); }
+        .layer p { font-size: .92rem; margin-bottom: .3rem; }
+        .layer .meta { font-family: var(--ff-mono); font-size: .74rem; color: var(--warmgray); }
+        /* 流程步骤 */
+        .flow { margin: 1.4rem 0; counter-reset: step; }
+        .flow .step {
+            display: flex; gap: 1rem; padding: .8rem 0;
+            border-left: 2px solid var(--line); padding-left: 1.2rem;
+            position: relative;
+        }
+        .flow .step::before {
+            counter-increment: step; content: counter(step,decimal-leading-zero);
+            font-family: var(--ff-mono); font-size: .78rem; color: var(--ink);
+            position: absolute; left: -1.1rem; top: .95rem;
+            background: var(--canvas); padding: .1rem .2rem;
+        }
+        .flow .step .who {
+            font-family: var(--ff-mono); font-size: .7rem; color: var(--warmgray);
+            min-width: 4.6em; padding-top: .15em;
+        }
+        .flow .step .what { font-size: .95rem; }
+        /* 徽标辅助 */
+        .yes::before { content: "✅ "; }
+        .no::before { content: "❌ "; }
+        .part::before { content: "◐ "; }
+        footer {
+            max-width: 780px; margin: 0 auto; padding: 2rem 1.4rem 4rem;
+            font-family: var(--ff-sans); font-size: .78rem; color: var(--warmgray);
+            border-top: 1px solid var(--line);
+        }
+        @media (max-width: 640px) {
+            nav .links { display: none; }
+            h1 { font-size: 1.6rem; }
+            main { padding-top: 6rem; }
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <a href="index.html">&larr; Resume</a>
+    <div class="links">
+        <a href="#problem">问题</a>
+        <a href="#arch">架构</a>
+        <a href="#flow">纠正闭环</a>
+        <a href="#guard">防回音壁</a>
+        <a href="#status">实现状态</a>
+    </div>
+</nav>
+
+<main>
+
+<header class="hero">
+    <div class="kicker">Mechanism Transparency · 机制透明度文档</div>
+    <h1>AI 如何懂我：<br>个人认知档案的机制架构</h1>
+    <p class="lead">一份给本人审查的公开文档：当 AI 协作者声称"越用越懂你"，背后必须有一套可检查、可纠错、可回滚的机制。本文把这套机制完整摊开——包括它现在做不到什么。</p>
+    <span class="status-pill">状态：L1 已运行 · L2/L3 设计定稿 · 建设中</span>
+</header>
+
+<!-- ═══════════ 01 问题 ═══════════ -->
+<h2 id="problem"><span class="num">01</span>问题：三块真实的短板</h2>
+
+<p>这不是一个假想中的问题。以下三条全部来自实际运行中发现的事实：</p>
+
+<table>
+    <tr><th>发现</th><th>事实</th><th>含义</th></tr>
+    <tr>
+        <td>记忆超载</td>
+        <td>用户档案文件已达 <code class="mono">3,249</code> 字符，而每会话注入预算只有 <code class="mono">1,375</code> 字符，超出 2.4 倍</td>
+        <td>"往一个文件里堆"的路线已到头。继续堆要么被截断，要么挤掉别的记忆</td>
+    </tr>
+    <tr>
+        <td>克隆泄漏</td>
+        <td>克隆一个新协作者环境时，全部个人记忆（含敏感内容）被连带复制。事后靠人工审查发现并清除</td>
+        <td>个人数据没有边界约束时，复制操作就是泄漏通道</td>
+    </tr>
+    <tr>
+        <td>风格 ≠ 思维</td>
+        <td>文字风格检查（禁用词、排版纪律）可以执行，但一篇文章"像不像我"取决于思维框架，不取决于用词</td>
+        <td>需要单独一层记录"怎么想"，与"怎么写"严格分开</td>
+    </tr>
+</table>
+
+<div class="callout">结论：懂一个人 = <strong>结构化档案 × 按需读取 × 持续策展</strong>。不存在"AI 自动越来越懂你"的魔法——任何声称如此的系统，要么在偷偷收集你看不到的数据，要么在夸大。</div>
+
+<!-- ═══════════ 02 架构 ═══════════ -->
+<h2 id="arch"><span class="num">02</span>三层架构</h2>
+
+<div class="layers">
+    <div class="layer">
+        <div class="head"><span class="badge">L1</span><span class="name">常驻层 · USER.md</span></div>
+        <p><strong>任何对话都加载的身份内核</strong>。只放每句话都用得上的事实：身份、对话态度、隐私红线、协作方式。</p>
+        <p class="meta">硬上限 1,375 字符 · 每会话注入 · 超限即失效面扩大</p>
+    </div>
+    <div class="layer l2">
+        <div class="head"><span class="badge">L2</span><span class="name">按需层 · 认知档案（分卷技能）</span></div>
+        <p><strong>按任务相关性加载的结构化档案</strong>，用技能系统的 references 机制实现——只在任务匹配时读入，无预算压力。规划分卷：</p>
+        <ul>
+            <li><code class="mono">writing-voice.md</code> — 文风、标题规约、禁用词（管"怎么写"）</li>
+            <li><code class="mono">thinking-style.md</code> — 思维框架、判断习惯、类比体系（管"怎么想"）</li>
+            <li><code class="mono">values-faith.md</code> — 价值观与信仰话题的对话边界</li>
+            <li><code class="mono">collab-style.md</code> — 讨论方式：全展开、指盲区、不迎合不抬杠</li>
+            <li><code class="mono">work-context.md</code> — 行业经历细节与项目构想全貌</li>
+        </ul>
+        <p class="meta">无硬上限 · 按相关性加载 · 明文 markdown</p>
+    </div>
+    <div class="layer l3">
+        <div class="head"><span class="badge">L3</span><span class="name">沉淀管道 · 纠正入库流程</span></div>
+        <p><strong>"越用越懂你"的真实机制</strong>：对话中发现的用户纠正与偏好 → 以 diff 形式提议 → 用户审核 → 入库并版本化。agent 无权单方面写入 L2。</p>
+        <p class="meta">每次更新 = 一次用户审核 · git 版本化 · 可回滚</p>
+    </div>
+</div>
+
+<h3>L1 与 L2 的分界规则</h3>
+<p>判断一个问题：<strong>这句话是不是每段对话都用得上？</strong>是 → L1（但要付出预算）；只在特定任务类型用得上（写文章、信仰讨论、行业项目）→ L2。L1 里放不下的，不是删掉，是迁移到对应分卷并在 L1 留一行指针。</p>
+
+<!-- ═══════════ 03 闭环 ═══════════ -->
+<h2 id="flow"><span class="num">03</span>一次纠正的完整旅程</h2>
+
+<p>共鸣不是文件堆出来的，是一个循环磨出来的。以一个真实发生的纠正为例：</p>
+
+<div class="flow">
+    <div class="step"><span class="who">用户</span><span class="what">在讨论中发现 AI 的一个表述不准确（例：把"装了某技能"当成了"用过某技能"），当场指出。</span></div>
+    <div class="step"><span class="who">AI</span><span class="what">确认错误，复述正确的边界（"装了不等于用了"），并说明这个误判是怎么发生的。</span></div>
+    <div class="step"><span class="who">AI</span><span class="what">对话结束时提出档案更新建议（diff 形式）："建议在 collab-style.md 增加：陈述'用户在用 X'之前，先核实触发记录。"</span></div>
+    <div class="step"><span class="who">用户</span><span class="what"><strong>审核</strong>：同意 / 修改措辞 / 拒绝。拒绝则不入库，对话中的道歉不算数。</span></div>
+    <div class="step"><span class="who">系统</span><span class="what">入库并 git commit——这条纠正从此带版本号：谁改的、何时改的、改之前是什么，全部可追溯。</span></div>
+    <div class="step"><span class="who">验证</span><span class="what">下次同类任务中，AI 的行为应当不同。<strong>行为不变 = 入库无效</strong>，需要在下次纠正时追查原因。</span></div>
+</div>
+
+<div class="callout">这个闭环的关键性质：<strong>AI 对自己的每次"懂你"主张都负有举证责任</strong>。"我说我记住了"不是证据，下次会话里行为改变才是。</div>
+
+<!-- ═══════════ 04 保证 ═══════════ -->
+<h2 id="guard"><span class="num">04</span>保证与纠错机制</h2>
+
+<h3>4.1 你凭什么信它没乱记</h3>
+<ul>
+    <li><strong>明文原则</strong>：所有档案是用户自己磁盘上的 markdown 文件，随时可打开阅读。没有隐藏存储、没有云端黑箱。</li>
+    <li><strong>审核入库</strong>：L2/L3 的每次变更以 diff 提议，用户批准才生效。AI 单方面写入视为违规。</li>
+    <li><strong>版本化</strong>：档案目录纳入 git。任何一条记录的来龙去脉（哪次对话、什么纠正、谁批准）可回溯。</li>
+    <li><strong>最小化</strong>：只记录可复用的框架与边界，不记录事实性隐私（地址、账号、联系方式在红线清单内，永不入档）。</li>
+</ul>
+
+<h3>4.2 防回音壁——你担心的信息茧房</h3>
+<p>这是整个设计里最重要的一节。认知镜像如果做过了头，就变成附和机器：AI 只会复述你的立场，你只听到自己的回声。四道防线：</p>
+
+<table>
+    <tr><th>防线</th><th>机制</th><th>违反信号</th></tr>
+    <tr>
+        <td><strong>记录框架，不记录结论</strong></td>
+        <td>thinking-style 卷只写"用户如何分析问题"（例：先问本质再问可行性、务实闭环压倒概念完备），<em>永不记录</em>"用户认为 X 是对的"这类结论</td>
+        <td>档案里出现站队性表述</td>
+    </tr>
+    <tr>
+        <td><strong>镜像的反面责任</strong></td>
+        <td>知道用户怎么想之后，义务是指出<strong>容易不想什么</strong>——思维框架同时也是思维盲区的来源</td>
+        <td>连续三次讨论无任何异议或补充视角</td>
+    </tr>
+    <tr>
+        <td><strong>强制 steelman</strong></td>
+        <td>深度讨论的决策性结论，AI 必须先给出反方最强论证再表态。给不出 = 讨论不充分</td>
+        <td>结论出现在反方论证之前</td>
+    </tr>
+    <tr>
+        <td><strong>宪法条款</strong></td>
+        <td>用户档案中已写入常驻规则："不迎合不抬杠，客观中立；不要因为怕迎合就故意反对——该认可就认可"<sup>†</sup></td>
+        <td>—</td>
+    </tr>
+</table>
+<p style="font-size:.82rem;color:var(--warmgray)">† 这条的原文来自用户本人此前的纠正，经审核入库。它本身就是 L3 流程运转的产物。</p>
+
+<div class="callout warn">诚实的失效模式：防回音壁防的是<strong>机制性附和</strong>，防不了<strong>模型本身的迎合倾向</strong>。后者靠用户保持抽查习惯（故意问一个自己可能错的问题，看 AI 敢不敢反驳）来监督。这个抽查建议写进了协作惯例。</div>
+
+<!-- ═══════════ 05 边界 ═══════════ -->
+<h2 id="limits"><span class="num">05</span>做不到的事（诚实清单）</h2>
+
+<ul>
+    <li><span class="no"></span><strong>不会隐式画像</strong>：没有你看不到的暗中积累。所有"懂你"的载体就是那几个文件。</li>
+    <li><span class="no"></span><strong>文件不能让模型"变成你"</strong>：档案校准的是输出，不是模型本身。换底层模型后，档案还在，共鸣精度需要重新校准一轮。</li>
+    <li><span class="no"></span><strong>上下文压缩会丢细节</strong>：长会话压缩是摘要过程。所以关键事实和纠正必须落文件，不能只活在对话里。</li>
+    <li><span class="part"></span><strong>"了解程度"有上限</strong>：档案覆盖的是被对话触发过的模式。没聊到的领域，AI 对你的认知是空白——这是特性（不臆测）也是局限（不主动）。</li>
+    <li><span class="part"></span><strong>L3 依赖用户参与</strong>：你不审核，管道就停。整个系统的保鲜度 = 用户愿意投入的审核时间。</li>
+</ul>
+
+<!-- ═══════════ 06 状态 ═══════════ -->
+<h2 id="status"><span class="num">06</span>实现状态（不自欺版）</h2>
+
+<table>
+    <tr><th>组件</th><th>状态</th><th>证据</th></tr>
+    <tr><td>L1 常驻层</td><td class="yes"></td>运行中</td></tr>
+    <tr><td>L1 超载治理（迁移分卷）</td><td class="part"></span>设计定稿，待执行</td></tr>
+    <tr><td>L2 认知档案五卷</td><td class="part"></span>分卷结构定稿，内容待建</td></tr>
+    <tr><td>L3 纠正入库流程</td><td class="part"></span>流程已在本会话实际运转（见 §03 案例来源），制度化待完成</td></tr>
+    <tr><td>档案 git 版本化</td><td class="part"></span>机制可用，未对档案目录单独建仓</td></tr>
+    <tr><td>防回音壁四防线</td><td class="yes"></td>第 4 防线已运行，第 2/3 防线为进行中惯例</td></tr>
+</table>
+
+<p>本页刻意标注每一项的真实状态，而不是全部打勾——一份声称"全部完成"的透明度文档，本身就违背它自己的原则。</p>
+
+<!-- ═══════════ 07 案例 ═══════════ -->
+<h2 id="cases"><span class="num">07</span>已经发生过的三个真实案例</h2>
+
+<ol>
+    <li><strong>称呼纠正入库</strong>：早期对话中 AI 对用户背景的一次表述不准确，用户纠正后以一条记忆入库（含"倾向中性描述"的边界说明），此后所有会话生效。这是 L3 闭环的第一次实跑。</li>
+    <li><strong>"装了 ≠ 用了"误判</strong>：AI 把技能目录里存在的捆绑技能当成了用户的实践成果来引用，被用户当场否认（"我好像从来没有用过"）。AI 撤回结论并修正了推断纪律：引用用户行为前先查触发记录。</li>
+    <li><strong>克隆泄漏发现</strong>：为新协作者环境做克隆时，AI 主动审查发现全部个人记忆被连带复制（含用户档案与私密记忆），当场清除并重置，用户档案零改动。</li>
+</ol>
+
+<p>三个案例分别是：纠正入库的建立、纠错的强度（用户推翻 AI 结论，AI 接受并修正）、边界的自检。它们不代表系统完美——第 2 个案例本身就是 AI 犯的错——但代表<strong>纠错循环真的在转</strong>。</p>
+
+<div class="callout">本页的最终判断标准不在本页里，在日常使用中：AI 是否减少了对同一件事的重复解释？被纠正后行为是否真的改变？它给出的反对意见是否让你不舒服但事后证明有价值？——<strong>下一个任务是唯一的测试。</strong></div>
+
+</main>
+
+<footer>
+    更新于 2026-11 · 本页描述机制与架构，不含任何个人隐私数据 · 相关工程基于 Hermes Agent（开源）官方机制：memory / skills references / session lifecycle
+</footer>
+
+</body>
+</html>
