@@ -283,7 +283,7 @@
 <h3>三个待建的硬化构件</h3>
 <table>
     <tr><th>构件</th><th>把什么从 prompt 层升级</th><th>状态</th></tr>
-    <tr><td>L3 审计 cron</td><td>"对话结尾提议档案更新"的习惯 → 每周机器触发审计：对比纠正事件数 vs 档案入库数，差值即待审清单，推给用户。漏掉变成看得见的告警</td><td>待建</td></tr>
+    <tr><td>L3 审计 cron</td><td>"对话结尾提议档案更新"的习惯 → 每周机器触发审计：对比纠正事件数 vs 档案入库数，差值即待审清单，推给用户。漏掉变成看得见的告警</td><td>✅ 已建（2026-11-20）</td></tr>
     <tr><td>档案审批门</td><td>"用户审核才入库"的约定 → 档案目录单独建仓，pre-commit 钩子要求每条变更携带审核痕迹；git 历史使事后不可抵赖</td><td>待建</td></tr>
     <tr><td>L1 预算卫兵</td><td>"定期检查记忆超载"的自觉 → 字符数脚本（<code class="mono">wc -c</code> vs 上限）挂 cron，超限必然报数</td><td>待建</td></tr>
 </table>
@@ -311,8 +311,8 @@
     <tr><th>组件</th><th>状态</th><th>证据</th></tr>
     <tr><td>L1 常驻层</td><td class="yes"></td>运行中</td></tr>
     <tr><td>L1 超载治理（迁移分卷）</td><td class="part"></span>设计定稿，待执行</td></tr>
-    <tr><td>L2 认知档案五卷</td><td class="part"></span>分卷结构定稿，内容待建</td></tr>
-    <tr><td>L3 纠正入库流程</td><td class="part"></span>流程已在本会话实际运转（见 §03 案例来源），制度化待完成</td></tr>
+    <tr><td>L2 认知档案五卷</td><td class="part"></span>3/5 卷已建并有确认条目（thinking-style 4 条、collab-style 3 条、writing-voice 1 条）；values-faith、work-context 待素材积累</td></tr>
+    <tr><td>L3 审计 cron（周度批扫）</td><td class="yes"></span>已建并排期（2026-11-20：每周一 11:00 机器触发，只扫 default profile，硬排除家人/guest 会话；产出候选清单推送裁决）</td></tr>
     <tr><td>档案 git 版本化</td><td class="part"></span>机制可用，未对档案目录单独建仓</td></tr>
     <tr><td>防回音壁四防线</td><td class="yes"></td>第 4 防线已运行，第 2/3 防线为进行中惯例</td></tr>
 </table>
