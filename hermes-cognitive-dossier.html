@@ -139,6 +139,7 @@
         <a href="#arch">架构</a>
         <a href="#flow">纠正闭环</a>
         <a href="#guard">防回音壁</a>
+        <a href="#enforcement">执行层</a>
         <a href="#status">实现状态</a>
     </div>
 </nav>
@@ -266,8 +267,34 @@
 
 <div class="callout warn">诚实的失效模式：防回音壁防的是<strong>机制性附和</strong>，防不了<strong>模型本身的迎合倾向</strong>。后者靠用户保持抽查习惯（故意问一个自己可能错的问题，看 AI 敢不敢反驳）来监督。这个抽查建议写进了协作惯例。</div>
 
-<!-- ═══════════ 05 边界 ═══════════ -->
-<h2 id="limits"><span class="num">05</span>做不到的事（诚实清单）</h2>
+<!-- ═══════════ 05 执行层 ═══════════ -->
+<h2 id="enforcement"><span class="num">05</span>执行层分级：哪些是管道，哪些是判断</h2>
+
+<p>本页 §02–04 描述的机制里，有一部分当前落在 prompt 层（Markdown 指令影响 AI 的倾向，但<strong>不保证行为</strong>）。prompt 是概率性管道：适合发散与判断类任务，不适合"必须发生/必须不发生"的流程。因此每条机制都要明确它处于哪一级执行层，并给出升级路径：</p>
+
+<table>
+    <tr><th>执行层</th><th>强度</th><th>已有实例</th><th>局限</th></tr>
+    <tr><td><strong>prompt</strong>（Markdown 指令）</td><td>倾向影响，概率遵守</td><td>文风规约、"不迎合"条款、L3 提议习惯</td><td>忙起来会漏、会跳过</td></tr>
+    <tr><td><strong>config</strong>（配置开关）</td><td>会话级强制</td><td>verify_on_stop、profile 工具裁剪、记忆字符上限</td><td>只覆盖框架已内置的检查项</td></tr>
+    <tr><td><strong>hook</strong>（进程级脚本）</td><td>物理强制</td><td>pre-commit 测试门——测试不绿，commit 进不去</td><td>只拦截可脚本化的检查</td></tr>
+    <tr><td><strong>cron</strong>（机器触发）</td><td>时间强制</td><td>定时任务、每日日报</td><td>到点就跑，不判断对错</td></tr>
+</table>
+
+<h3>三个待建的硬化构件</h3>
+<table>
+    <tr><th>构件</th><th>把什么从 prompt 层升级</th><th>状态</th></tr>
+    <tr><td>L3 审计 cron</td><td>"对话结尾提议档案更新"的习惯 → 每周机器触发审计：对比纠正事件数 vs 档案入库数，差值即待审清单，推给用户。漏掉变成看得见的告警</td><td>待建</td></tr>
+    <tr><td>档案审批门</td><td>"用户审核才入库"的约定 → 档案目录单独建仓，pre-commit 钩子要求每条变更携带审核痕迹；git 历史使事后不可抵赖</td><td>待建</td></tr>
+    <tr><td>L1 预算卫兵</td><td>"定期检查记忆超载"的自觉 → 字符数脚本（<code class="mono">wc -c</code> vs 上限）挂 cron，超限必然报数</td><td>待建</td></tr>
+</table>
+
+<h3>设计原则：硬化应该跟着被验证的不变量走</h3>
+<p>不是所有流程都该管道化，过度硬化有三个代价：其一，<strong>僵化</strong>——把今天还没想清楚的规则焊死，系统就会失去随认知演化的能力（正如把错误的配方下放产线，损失是批量的）；其二，<strong>假确定性</strong>——管道给你"流程跑了"的证据，但流程之外最大的风险是<strong>方向性判断错误</strong>，没有任何 hook 能拦住一个错误的决定；其三，<strong>维护税</strong>——每个管道都需要人维护，管道越多，维护挤占思考。</p>
+
+<div class="callout">分界线：<strong>检查可以写成代码的，写代码；需要判断的，写 prompt，但配一个让偏差可见的机制（审计/告警），而不是假装它已经被强制。</strong>新流程先在软层试点，验证为不变量后再硬化——如同制造业配方须经现场验证后才下放执行系统。</div>
+
+<!-- ═══════════ 06 边界 ═══════════ -->
+<h2 id="limits"><span class="num">06</span>做不到的事（诚实清单）</h2>
 
 <ul>
     <li><span class="no"></span><strong>不会隐式画像</strong>：没有你看不到的暗中积累。所有"懂你"的载体就是那几个文件。</li>
@@ -277,8 +304,8 @@
     <li><span class="part"></span><strong>L3 依赖用户参与</strong>：你不审核，管道就停。整个系统的保鲜度 = 用户愿意投入的审核时间。</li>
 </ul>
 
-<!-- ═══════════ 06 状态 ═══════════ -->
-<h2 id="status"><span class="num">06</span>实现状态（不自欺版）</h2>
+<!-- ═══════════ 07 状态 ═══════════ -->
+<h2 id="status"><span class="num">07</span>实现状态（不自欺版）</h2>
 
 <table>
     <tr><th>组件</th><th>状态</th><th>证据</th></tr>
@@ -292,8 +319,8 @@
 
 <p>本页刻意标注每一项的真实状态，而不是全部打勾——一份声称"全部完成"的透明度文档，本身就违背它自己的原则。</p>
 
-<!-- ═══════════ 07 案例 ═══════════ -->
-<h2 id="cases"><span class="num">07</span>已经发生过的三个真实案例</h2>
+<!-- ═══════════ 08 案例 ═══════════ -->
+<h2 id="cases"><span class="num">08</span>已经发生过的三个真实案例</h2>
 
 <ol>
     <li><strong>称呼纠正入库</strong>：早期对话中 AI 对用户背景的一次表述不准确，用户纠正后以一条记忆入库（含"倾向中性描述"的边界说明），此后所有会话生效。这是 L3 闭环的第一次实跑。</li>
